@@ -1,14 +1,89 @@
 <!DOCTYPE html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title></title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="">
-        <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
-    </head>
-    <body>     
-        <script src=""></script>
-    </body>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Selling Website</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+    
+    <!-- Navbar -->
+    <nav class="bg-blue-600 p-4 text-white">
+        <div class="container mx-auto flex justify-between">
+            <a href="#" class="text-xl font-bold">📚 BookStore</a>
+            <div>
+                <a href="#" class="mr-4">Home</a>
+                <a href="#" class="mr-4">Sell</a>
+                <a href="#" class="mr-4">Buy</a>
+                <a href="#" class="mr-4">Exchange</a>
+                <a href="#" class="bg-white text-blue-600 px-4 py-2 rounded">Login</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="text-center py-16 bg-blue-50">
+        <h1 class="text-4xl font-bold text-gray-800">Buy, Sell & Exchange Books Easily</h1>
+        <p class="mt-2 text-gray-600">Find the best deals on old and new books</p>
+        <div class="mt-4">
+            <a href="#" class="bg-blue-600 text-white py-2 px-6 rounded mr-2">Sell a Book</a>
+            <a href="#" class="bg-green-500 text-white py-2 px-6 rounded">Browse Books</a>
+        </div>
+    </section>
+
+    <!-- Categories Section -->
+    <section class="container mx-auto my-10 px-4">
+        <h2 class="text-2xl font-semibold text-gray-800">Explore Categories</h2>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4">
+            <div class="bg-white p-4 rounded shadow">
+                <h3 class="font-bold text-lg">Old Books</h3>
+            </div>
+            <div class="bg-white p-4 rounded shadow">
+                <h3 class="font-bold text-lg">New Books</h3>
+            </div>
+            <div class="bg-white p-4 rounded shadow">
+                <h3 class="font-bold text-lg">Amazon Books</h3>
+            </div>
+            <div class="bg-white p-4 rounded shadow">
+                <h3 class="font-bold text-lg">Flipkart Books</h3>
+            </div>
+        </div>
+    </section>
+
+    <!-- Book Listings -->
+    <section class="container mx-auto my-10 px-4">
+        <h2 class="text-2xl font-semibold text-gray-800">Available Books</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-4">
+            <!-- Sample Book Card -->
+            <div class="bg-white p-4 rounded shadow">
+                <img src="https://via.placeholder.com/150" alt="Book" class="w-full h-48 object-cover rounded">
+                <h3 class="font-bold text-lg mt-2">Book Title</h3>
+                <p class="text-gray-600">Author Name</p>
+                <p class="text-blue-600 font-bold mt-2">$10.99</p>
+                <button class="mt-2 bg-blue-600 text-white py-2 px-4 rounded w-full">Buy Now</button>
+            </div>
+            <div class="bg-white p-4 rounded shadow">
+                <img src="https://via.placeholder.com/150" alt="Book" class="w-full h-48 object-cover rounded">
+                <h3 class="font-bold text-lg mt-2">Book Title</h3>
+                <p class="text-gray-600">Author Name</p>
+                <p class="text-blue-600 font-bold mt-2">$12.99</p>
+                <button class="mt-2 bg-blue-600 text-white py-2 px-4 rounded w-full">Buy Now</button>
+            </div>
+            <div class="bg-white p-4 rounded shadow">
+                <img src="https://via.placeholder.com/150" alt="Book" class="w-full h-48 object-cover rounded">
+                <h3 class="font-bold text-lg mt-2">Book Title</h3>
+                <p class="text-gray-600">Author Name</p>
+                <p class="text-blue-600 font-bold mt-2">$9.99</p>
+                <button class="mt-2 bg-blue-600 text-white py-2 px-4 rounded w-full">Buy Now</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white text-center p-4 mt-4">
+        &copy; 2025 BookStore - All Rights Reserved
+    </footer>
+
+</body>
 </html>
