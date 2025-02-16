@@ -3,7 +3,8 @@ const app = express();
 const path = require('path');
 
 app.set('view engine', 'ejs'); // Set EJS as the view engine
-app.set('views', path.join(__dirname, 'views')); // Ensure views folder path is correct
+// app.set('views', path.join(__dirname, 'views')); 
+app.use(express.static(__dirname + "/views"));
 
 app.get('/', (req, res) => {
     res.render('index'); // Render the index.ejs file
