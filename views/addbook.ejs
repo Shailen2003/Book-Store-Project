@@ -7,6 +7,22 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <!-- Navbar -->
+    <nav class="bg-blue-600 p-4 text-white fixed w-full top-0 navbar">
+        <div class="container mx-auto flex justify-between">
+            <a href="#" class="text-xl font-bold">📚 Booket</a>
+            <input class="p-1 w-96 outline-none rounded-lg text-zinc-900" type="search" placeholder=" Search Your's choice">
+            <div>
+                <a href="/" class="mr-4 p-1 rounded-lg hover:bg-blue-800 ...">Home</a>
+                <a href="#about" class="mr-4 p-1 rounded-lg hover:bg-blue-800 ...">About</a>
+                <a href="#blog" class="mr-4 p-1 rounded-lg hover:bg-blue-800 ...">Blogs</a>
+                <a href="#contact" class="mr-4 p-1 rounded-lg hover:bg-blue-800 ...">Contact</a>
+                <a href="#" class="mr-4 p-1 rounded-lg hover:bg-blue-800 ...">List Book</a>
+                <a href="#" class="bg-white text-blue-600 px-4 py-2 rounded-lg">My Account</a>
+                <a href="#" class="bg-white text-blue-600 px-4 py-2 rounded-lg">Cart</a>
+            </div>
+        </div>
+    </nav>
     <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-lg">
         <h2 class="text-2xl font-bold text-center mb-6">Add Your Book</h2>
         <form action="/submit" method="POST" class="space-y-4">

@@ -12,6 +12,9 @@ app.get('/', (req, res) => {
 app.get('/addbook',(req,res)=>{
     res.render('addbook');
 });
+app.get('/booksbrowse',(req,res)=>{
+    res.render('bookstore');
+});
 
 const PORT = process.env.PORT || 3000;
 app.listen(3000, () => console.log(`Server running on http://localhost:${3000}`));

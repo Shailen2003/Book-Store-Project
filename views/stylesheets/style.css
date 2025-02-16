@@ -2,6 +2,18 @@
 html {
   scroll-behavior: smooth;
 }
+.navbar{
+  z-index: 3;
+}
+#home{
+  background-image:url(../images/big-image-books.webp) ;
+  height: 400px;
+}
+
+/* .bookbrowse:hover {
+  transform: scale(1.05) !important;
+  transition: all 0.3s ease !important;
+} */
 
 /* Hover animations */
 .hover-scale:hover {
