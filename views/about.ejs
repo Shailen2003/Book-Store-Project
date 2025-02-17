@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booket</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="javascripts/script.js"></script>
+    <link rel="stylesheet" href="stylesheets/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/boxicons/2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/YOUR_KIT_CODE.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+
+<body class="bg-gray-100">
+    <!-- Navbar -->
+    <header class="bg-blue-600 text-white p-4 fixed w-full top-0 z-50">
+        <div class="container mx-auto flex justify-between items-center">
+            <a href="#" class="text-xl font-bold">📚 Booket</a>
+
+            <!-- Search Bar (Visible on large screens) -->
+            <input type="search" placeholder="Search Your's choice"
+                class="hidden lg:block p-2 w-96 outline-none rounded-lg text-zinc-900">
+
+            <!-- Desktop Navigation -->
+            <nav class="hidden md:flex space-x-4">
+                <a href="./index.ejs" class="p-2 rounded-lg hover:bg-blue-800">Home</a>
+                <a href="/" class="p-2 rounded-lg hover:bg-blue-800">About</a>
+                <a href="./index.ejs" class="p-2 rounded-lg hover:bg-blue-800">Blogs</a>
+                <a href="./index.ejs" class="p-2 rounded-lg hover:bg-blue-800">Contact</a>
+                <a href="./addbook.ejs" class="p-2 rounded-lg hover:bg-blue-800">List Book</a>
+                <a href="./index.ejs" class="bg-white text-blue-600 px-4 py-2 rounded-lg">My Account</a>
+                <a href="./bookstore.ejs" class="bg-white text-blue-600 px-4 py-2 rounded-lg">Cart</a>
+            </nav>
+
+            <!-- Hamburger Menu (Mobile) -->
+            <div id="menu-icon" class="md:hidden text-2xl cursor-pointer">☰</div>
+        </div>
+
+        <!-- Mobile Navigation Menu (Hidden by Default) -->
+        <div id="mobile-menu"
+            class="fixed top-0 right-0 w-64 h-full bg-blue-700 text-white flex flex-col items-center space-y-4 pt-20 transition-transform duration-300 transform translate-x-full">
+            <a href="/" class="p-2 hover:bg-blue-800">Home</a>
+            <a href="#about" class="p-2 hover:bg-blue-800">About</a>
+            <a href="#blog" class="p-2 hover:bg-blue-800">Blogs</a>
+            <a href="#contact" class="p-2 hover:bg-blue-800">Contact</a>
+            <a href="#" class="p-2 hover:bg-blue-800">List Book</a>
+            <a href="#" class="bg-white text-blue-600 px-4 py-2 rounded-lg">My Account</a>
+            <a href="#" class="bg-white text-blue-600 px-4 py-2 rounded-lg">Cart</a>
+        </div>
+    </header>
+    <section class="bg-white py-10">
+        <div class="container mx-auto px-6 text-center">
+            <div class="lg:w-1/3 mb-6 lg:mb-0">
+                <img src="https://thumbs.dreamstime.com/b/young-happy-smiling-student-glasses-preparing-exam-girl-evening-sits-table-library-pile-182022245.jpg"
+                    alt="Girl holding books" class="rounded-lg shadow-lg">
+            </div>
+            <h2 class="text-3xl font-bold text-gray-800">India's no. 1 platform to buy, sell, exchange used books.</h2>
+            <p class="mt-4 text-gray-600 underline">Our story begins with you</p>
+
+            <div class="mt-8 flex flex-col lg:flex-row items-center justify-center lg:space-x-8">
+                <div class="lg:w-2/3 text-left">
+                    <h3 class="text-xl font-semibold text-gray-700">A Student-to-Student Bookstore!</h3>
+                    <p class="mt-4 text-gray-600">
+                        Booket (owned by 'Boolean Infotech Solutions') is all about you. Booket is an intercommunity
+                        online
+                        'student-to-student' bookstore that connects students to buy or sell used books by making it
+                        fast and easy for anyone
+                        to post a listing on the web. Sellers can easily earn some extra cash by simply posting used
+                        books that are no longer
+                        in use for them - thus, giving buyers the opportunity to find great value books at affordable
+                        price deals.
+                    </p>
+                    <p class="mt-4 text-gray-600">
+                        Booket is committed to creating a sustainable and eco-friendly approach to book exchanges. By
+                        giving used books a
+                        second life, we're reducing waste and promoting a more environmentally conscious student
+                        community.
+                    </p>
+                    <blockquote class="mt-4 italic text-yellow-600 bg-yellow-100 p-4 rounded-md">
+                        "Selling used second hand books at your own desired price is not an uphill battle anymore. Just
+                        sell them on Booket!"
+                    </blockquote>
+                    <p class="mt-4 text-gray-600">
+                        Join the Booket community and be part of a movement that's not only about affordable books but
+                        also about making a
+                        positive impact on the planet. 🌍
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="bg-blue-50 py-6">
+        <div class="container mx-auto text-center">
+            <div class="bg-blue-100 p-4 rounded-lg inline-block">
+                <p class="text-blue-800 font-medium flex items-center">
+                    <span class="text-xl mr-2">❗</span> If you've got any suggestions, questions, don't hesitate to drop
+                    us a note at
+                    <a href="mailto:support@booket.com" class="text-blue-600 underline"> support@booket.com</a>
+                </p>
+            </div>
+        </div>
+        <div class="container mx-auto text-center mt-6">
+            <h2 class="text-2xl font-bold">Follow us on Social Media</h2>
+            <div class="flex justify-center space-x-6 mt-4">
+                <a href="#" class="flex flex-col items-center text-blue-700">
+                    <img src="https://img.icons8.com/fluency/48/facebook-new.png" alt="Facebook" class="w-10 h-10">
+                    <span>Facebook</span>
+                </a>
+                <a href="#" class="flex flex-col items-center text-pink-600">
+                    <img src="https://img.icons8.com/?size=48&id=32323&format=png" alt="Instagram" class="w-10 h-10">
+                    <span>Instagram</span>
+                </a>
+                <a href="#" class="flex flex-col items-center text-red-600">
+                    <img src="https://img.icons8.com/?size=48&id=19318&format=png" alt="Youtube" class="w-10 h-10">
+                    <span>Youtube</span>
+                </a>
+                <a href="#" class="flex flex-col items-center text-blue-500">
+                    <img src="https://img.icons8.com/?size=50&id=A4DsujzAX4rw&format=png" alt="Twitter"
+                        class="w-10 h-10">
+                    <span>Twitter</span>
+                </a>
+            </div>
+        </div>
+    </section>
+    <section class="relative bg-blue-100 py-40 bg-cover bg-center"
+    style="background-image: url('https://th.bing.com/th/id/OIP.aADcTtyMQUCctUP4Ajg3UwHaFU?w=800&h=575&rs=1&pid=ImgDetMain');">
+    <div class="relative container mx-auto my-20 flex flex-col items-center">
+        <div class="bg-white py-4 px-6 rounded-lg shadow-md mt-20">
+            <h1 class="text-5xl font-bold text-gray-800">SAVE THE <span class="text-green-500">PLANET</span></h1>
+        </div>
+    </div>
+</section>
+
+    <footer class="bg-white py-10">
+        <div class="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
+            <div>
+                <h2 class="text-lg font-bold">ABOUT US</h2>
+                <ul class="mt-2 space-y-2">
+                    <li><a href="/" class="text-gray-600">About Us</a></li>
+                    <li><a href="./index.ejs" class="text-gray-600">Contact Us</a></li>
+                    <li><a href="#" class="text-gray-600">Leave Us Feedback</a></li>
+                    <li><a href="./index.ejs" class="text-gray-600">Blog</a></li>
+                </ul>
+            </div>
+            <div>
+                <h2 class="text-lg font-bold">USEFUL LINKS</h2>
+                <ul class="mt-2 space-y-2">
+                    <li><a href="/" class="text-gray-600">How it works?</a></li>
+                    <li><a href="/" class="text-gray-600">Booket Teleport</a></li>
+                    <li><a href="./index.ejs" class="text-gray-600">FAQs</a></li>
+                    <li><a href="/" class="text-gray-600">Chat Guidelines</a></li>
+                </ul>
+            </div>
+            <div>
+                <h2 class="text-lg font-bold">STAY CONNECTED</h2>
+                <div class="mt-2 flex justify-center md:justify-start space-x-4">
+                    <a href="#" class="text-gray-600"><i class="fab fa-facebook"></i></a>
+                    <a href="#" class="text-gray-600"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="text-gray-600"><i class="fab fa-youtube"></i></a>
+                    <a href="#" class="text-gray-600"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="mt-6 text-center text-gray-500 text-sm">
+            <p>Copyright © 2025, Booket™ All Rights Reserved</p>
+        </div>
+    </footer>
+
+</body>
+
+</html>
