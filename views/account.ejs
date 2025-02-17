@@ -56,21 +56,26 @@
         
         <!-- Ads Section -->
         <div class="bg-white shadow-lg rounded-lg p-6">
-            <h2 class="text-2xl font-semibold mb-4">My Ads</h2>
-            <div class="border rounded-lg p-4 flex items-center justify-between">
-                <div>
-                    <h3 class="text-lg font-medium">Internship</h3>
-                    <p class="text-sm text-gray-600">Posted: 4 minutes ago</p>
-                    <p class="text-sm text-gray-600">Quantity Available: 1</p>
-                    <p class="text-sm text-green-600">You will earn ₹96 for this ad</p>
+            <h2 class="text-2xl font-semibold mb-4">My Book Posts</h2>
+            <% user.posts.forEach(post => { %>
+                <div class="border rounded-lg p-4 flex items-center justify-between mb-4">
+                    <div>
+                        <h3 class="text-lg font-medium"><%= post.title %></h3>
+                        <p class="text-sm text-gray-600">Posted: <%= post.date.toLocaleString() %></p>
+                        <p class="text-sm text-gray-600">Quantity Available: <%= post.quantity %></p>
+                        <p class="text-sm text-green-600">Price: ₹<%= post.price %></p>
+                    </div>
+                    <div class="flex space-x-2">
+                        <a href="/bookpost/<%= post._id %>" class="bg-blue-500 text-white px-3 py-1 rounded">View</a>
+                        <a href="/bookpost/edit/<%= post._id %>" class="bg-green-500 text-white px-3 py-1 rounded">Edit</a>
+                        <form action="/bookpost/delete/<%= post._id %>" method="POST" class="inline">
+                            <button type="submit" class="bg-red-500 text-white px-3 py-1 rounded">Delete</button>
+                        </form>
+                    </div>
                 </div>
-                <div class="flex space-x-2">
-                    <button class="bg-blue-500 text-white px-3 py-1 rounded">View</button>
-                    <button class="bg-green-500 text-white px-3 py-1 rounded">Edit</button>
-                    <button class="bg-red-500 text-white px-3 py-1 rounded">Delete</button>
-                </div>
-            </div>
+            <% }); %>
         </div>
+        
     </div>
 </body>
 </html>

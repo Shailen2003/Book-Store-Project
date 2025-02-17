@@ -34,6 +34,37 @@ app.get('/login', (req , res)=>{
     res.render('login');
 })
 
+app.post('/addbook', async (req, res) => {
+    try {
+        console.log("Received data:", req.body);  // Debugging log
+
+        const {
+            seller,
+            title,
+            bookPurpose,
+            bookType,
+            bookCondition,
+            quantity,
+            price,
+            paymentMode,
+            sellerDetails
+        } = req.body;
+
+        // Check for missing required fields
+        if (!seller || !title || !bookPurpose || !bookType || !quantity || !price || !paymentMode || !sellerDetails) {
+            return res.status(400).json({ error: "All required fields must be provided." });
+        }
+
+        const newBook = new Postbook(req.body);
+        await newBook.save();
+        res.status(201).json(newBook);
+    } catch (error) {
+        console.error("Error saving book:", error);
+        res.status(500).json({ error: error.message });
+    }
+});
+
+
 
 app.post('/signup', async (req , res)=>{
     let{ name,phone,email, password,pincode} = req.body;

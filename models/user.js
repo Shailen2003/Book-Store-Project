@@ -9,7 +9,7 @@ const userSchema = new mongoose.Schema({
     email: String,
     password: String,
     pincode:Number,
-    posts:[{type:mongoose.Schema.Types.ObjectId, ref:'post'}]
+    posts:[{type:mongoose.Schema.Types.ObjectId, ref:'postbook'}]
 });
 
 module.exports = mongoose.model('user', userSchema);
