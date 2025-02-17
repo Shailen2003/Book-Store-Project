@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Booket</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <script src="javascripts/script.js"></script>
+        <link rel="stylesheet" href="stylesheets/style.css">
+        <script src="https://kit.fontawesome.com/YOUR_KIT_CODE.js" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    </head>
+<body class="bg-gray-100">
+    <nav class="bg-blue-600 p-4 text-white fixed w-full top-0 navbar">
+        <div class="container mx-auto flex justify-between">
+            <a href="#" class="text-xl font-bold">📚 Booket</a>
+            <input class="p-1 w-96 outline-none rounded-lg text-zinc-900" type="search" placeholder=" Search Your's choice">
+            <div>
+                <a href="/" class="mr-4 p-1 rounded-lg hover:bg-blue-800 ...">Home</a>
+                <a href="#about" class="mr-4 p-1 rounded-lg hover:bg-blue-800 ...">About</a>
+                <a href="#blog" class="mr-4 p-1 rounded-lg hover:bg-blue-800 ...">Blogs</a>
+                <a href="#contact" class="mr-4 p-1 rounded-lg hover:bg-blue-800 ...">Contact</a>
+                <a href="#" class="mr-4 p-1 rounded-lg hover:bg-blue-800 ...">List Book</a>
+                <a href="#" class="bg-white text-blue-600 px-4 py-2 rounded-lg">My Account</a>
+                <a href="#" class="bg-white text-blue-600 px-4 py-2 rounded-lg">Cart</a>
+            </div>
+        </div>
+    </nav>
+    <div class="max-w-6xl mx-auto p-6 mt-32">
+        <!-- Profile Section -->
+        <div class="bg-white shadow-lg rounded-lg p-6 mb-6">
+            <h2 class="text-2xl font-semibold mb-4">My Profile</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-gray-700">Name</label>
+                    <input type="text" value="<%= user.name %>" class="w-full p-2 border rounded-lg" disabled>
+                </div>
+                <div>
+                    <label class="block text-gray-700">Email Address</label>
+                    <input type="email" value="<%= user.email %>" class="w-full p-2 border rounded-lg" disabled>
+                </div>
+                <div>
+                    <label class="block text-gray-700">Phone Number</label>
+                    <input type="text" value="+91 <%= user.phone %>" class="w-full p-2 border rounded-lg" disabled>
+                </div>
+                <div>
+                    <label class="block text-gray-700">Pincode</label>
+                    <input type="text" value="<%= user.pincode %>" class="w-full p-2 border rounded-lg" disabled>
+                </div>
+            </div>
+            <button class="mt-4 bg-blue-500 text-white px-4 py-2 rounded-lg">Update Profile</button>
+            <div class="w-full flex justify-end">
+                <a href="/logout" class="text-red-500 rounded-md px-3 py-2 text-sm inline-block">Logout</a>
+            </div>
+        </div>
+        
+        <!-- Ads Section -->
+        <div class="bg-white shadow-lg rounded-lg p-6">
+            <h2 class="text-2xl font-semibold mb-4">My Book Posts</h2>
+            <% user.posts.forEach(post => { %>
+                <div class="border rounded-lg p-4 flex items-center justify-between mb-4">
+                    <div>
+                        <h3 class="text-lg font-medium"><%= post.title %></h3>
+                        <p class="text-sm text-gray-600">Posted: <%= post.date.toLocaleString() %></p>
+                        <p class="text-sm text-gray-600">Quantity Available: <%= post.quantity %></p>
+                        <p class="text-sm text-green-600">Price: ₹<%= post.price %></p>
+                    </div>
+                    <div class="flex space-x-2">
+                        <a href="/bookpost/<%= post._id %>" class="bg-blue-500 text-white px-3 py-1 rounded">View</a>
+                        <a href="/bookpost/edit/<%= post._id %>" class="bg-green-500 text-white px-3 py-1 rounded">Edit</a>
+                        <form action="/bookpost/delete/<%= post._id %>" method="POST" class="inline">
+                            <button type="submit" class="bg-red-500 text-white px-3 py-1 rounded">Delete</button>
+                        </form>
+                    </div>
+                </div>
+            <% }); %>
+        </div>
+        
+    </div>
+</body>
+</html>

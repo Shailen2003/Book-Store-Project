@@ -18,34 +18,33 @@
                 <a href="#blog" class="mr-4 p-1 rounded-lg hover:bg-blue-800 ...">Blogs</a>
                 <a href="#contact" class="mr-4 p-1 rounded-lg hover:bg-blue-800 ...">Contact</a>
                 <a href="#" class="mr-4 p-1 rounded-lg hover:bg-blue-800 ...">List Book</a>
-                <a href="#" class="bg-white text-blue-600 px-4 py-2 rounded-lg">My Account</a>
+                <a href="/" class="bg-white text-blue-600 px-4 py-2 rounded-lg">My Account</a>
                 <a href="#" class="bg-white text-blue-600 px-4 py-2 rounded-lg">Cart</a>
             </div>
         </div>
     </nav>
-    <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-lg">
+    <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-lg mt-32">
         <h2 class="text-2xl font-bold text-center mb-6">Add Your Book</h2>
-        <form action="/submit" method="POST" class="space-y-4">
+        <form action="/addbook" method="POST" enctype="multipart/form-data" class="space-y-4">
             <div>
                 <label class="block text-gray-700 font-medium">Ad Title</label>
-                <input type="text" name="adTitle" class="w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-300" required>
+                <input type="text" name="title" class="w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-300" required>
             </div>
-            
+        
             <div>
                 <label class="block text-gray-700 font-medium">Add book for</label>
                 <div class="flex items-center space-x-4">
-                    <input type="radio" name="bookDetails" value="manual" class="mr-2"> Sell
-                    <input type="radio" name="bookDetails" value="isbn" checked class="mr-2">Exchange
-                    <input type="radio" name="bookDetails" value="isbn" checked class="mr-2">Both
+                    <label><input type="radio" name="bookPurpose" value="sell" required> Sell</label>
+                    <label><input type="radio" name="bookPurpose" value="exchange"> Exchange</label>
+                    <label><input type="radio" name="bookPurpose" value="both"> Both</label>
                 </div>
             </div>
-            
+        
             <div>
                 <label class="block text-gray-700 font-medium">ISBN</label>
-                <input type="text" name="isbn" class="w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-300" placeholder="Enter 13 digit ISBN number">
-                <button type="button" class="mt-2 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">Get Book Details</button>
+                <input type="text" name="isbn" class="w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-300" placeholder="Enter 13-digit ISBN number">
             </div>
-            
+        
             <div>
                 <label class="block text-gray-700 font-medium">Book Type</label>
                 <select name="bookType" class="w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-300" required>
@@ -54,50 +53,51 @@
                     <option value="used">Used</option>
                 </select>
             </div>
-            
-            <div>
+        
+            <div id="bookConditionField" style="display: none;">
                 <label class="block text-gray-700 font-medium">Book Condition (Used)</label>
                 <div class="flex items-center space-x-4">
-                    <input type="radio" name="bookCondition" value="excellent" class="mr-2"> Excellent
-                    <input type="radio" name="bookCondition" value="good" class="mr-2"> Good
-                    <input type="radio" name="bookCondition" value="fair" class="mr-2"> Fair
+                    <label><input type="radio" name="bookCondition" value="excellent"> Excellent</label>
+                    <label><input type="radio" name="bookCondition" value="good"> Good</label>
+                    <label><input type="radio" name="bookCondition" value="fair"> Fair</label>
                 </div>
             </div>
-            
+        
             <div>
                 <label class="block text-gray-700 font-medium">Upload Photos</label>
                 <input type="file" name="photos" multiple class="w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-300">
                 <p class="text-sm text-gray-600 mt-2">Upload up to 4 images (Max size: 15MB each).</p>
             </div>
-            
+        
             <div>
                 <label class="block text-gray-700 font-medium">Quantity Available</label>
                 <input type="number" name="quantity" min="1" class="w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-300" required>
             </div>
-             <!-- Pricing Details -->
-             <div>
+        
+            <!-- Pricing Details -->
+            <div>
                 <label class="block text-gray-700 font-medium">Your Price (₹)</label>
-                <input type="number" name="price" class="w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-300" required>
+                <input type="number" name="price" min="0" class="w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-300" required>
             </div>
-            
+        
             <div>
                 <label class="block text-gray-700 font-medium">Your Shipping Charges</label>
                 <div class="flex items-center space-x-4">
-                    <input type="number" name="shippingCharges" class="px-4 py-2 border rounded-lg focus:ring focus:ring-blue-300">
+                    <input type="number" name="shippingCharges" min="0" class="px-4 py-2 border rounded-lg focus:ring focus:ring-blue-300">
                     <label class="flex items-center">
-                        <input type="checkbox" name="freeShipping" class="mr-2"> Free Shipping
+                        <input type="checkbox" name="freeShipping"> Free Shipping
                     </label>
                 </div>
             </div>
-            
+        
             <div>
                 <label class="block text-gray-700 font-medium">Preferred Payment Mode</label>
                 <div class="flex items-center space-x-4">
-                    <input type="radio" name="paymentMode" value="upi" class="mr-2"> UPI Number
-                    <input type="radio" name="paymentMode" value="bank" class="mr-2"> Bank Account
+                    <label><input type="radio" name="paymentMode" value="upi" required> UPI Number</label>
+                    <label><input type="radio" name="paymentMode" value="bank"> Bank Account</label>
                 </div>
             </div>
-            
+        
             <!-- Seller Details -->
             <div>
                 <h3 class="text-xl font-semibold mt-6">Your Details</h3>
@@ -118,10 +118,22 @@
                     <input type="tel" name="sellerPhone" class="w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-300" required>
                 </div>
             </div>
+        
             <div class="flex justify-center">
                 <button type="submit" class="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600">Submit</button>
             </div>
         </form>
     </div>
 </body>
+<script>
+    // Show book condition options only if book type is 'used'
+    document.querySelector('select[name="bookType"]').addEventListener('change', function() {
+        let bookConditionField = document.getElementById('bookConditionField');
+        if (this.value === 'used') {
+            bookConditionField.style.display = 'block';
+        } else {
+            bookConditionField.style.display = 'none';
+        }
+    });
+</script>
 </html>
