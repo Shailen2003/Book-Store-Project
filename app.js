@@ -33,6 +33,8 @@ app.get('/signup',(req,res)=>{
 app.get('/login', (req , res)=>{
     res.render('login');
 })
+
+
 app.post('/signup', async (req , res)=>{
     let{ name,phone,email, password,pincode} = req.body;
     let user = await userModel.findOne({email});
@@ -54,7 +56,7 @@ app.post('/signup', async (req , res)=>{
             
             let token=jwt.sign({email:email,userid:user._id},"shailen");
             res.cookie('jwt', token);
-            res.render('/login')
+            res.send('User registered');
         })
     })
 })

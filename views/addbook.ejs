@@ -25,18 +25,18 @@
     </nav>
     <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-lg mt-32">
         <h2 class="text-2xl font-bold text-center mb-6">Add Your Book</h2>
-        <form action="/" method="POST" class="space-y-4">
+        <form action="/addbook" method="POST" class="space-y-4">
             <div>
                 <label class="block text-gray-700 font-medium">Ad Title</label>
-                <input type="text" name="adTitle" class="w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-300" required>
+                <input type="text" name="title" class="w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-300" required>
             </div>
             
             <div>
                 <label class="block text-gray-700 font-medium">Add book for</label>
                 <div class="flex items-center space-x-4">
-                    <input type="radio" name="bookDetails" value="manual" class="mr-2"> Sell
-                    <input type="radio" name="bookDetails" value="isbn" checked class="mr-2">Exchange
-                    <input type="radio" name="bookDetails" value="isbn" checked class="mr-2">Both
+                    <input type="radio" name="bookpurpose" value="sell" class="mr-2"> Sell
+                    <input type="radio" name="bookpurpose" value="exchange" checked class="mr-2">Exchange
+                    <input type="radio" name="bookpurpose" value="both" checked class="mr-2">Both
                 </div>
             </div>
             
