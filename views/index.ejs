@@ -8,27 +8,47 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="javascripts/script.js"></script>
     <link rel="stylesheet" href="stylesheets/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/boxicons/2.1.4/css/boxicons.min.css" rel="stylesheet">
     <script src="https://kit.fontawesome.com/YOUR_KIT_CODE.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
 
 <body class="bg-gray-100">
     <!-- Navbar -->
-    <nav class="bg-blue-600 p-4 text-white fixed w-full top-0 navbar">
-        <div class="container mx-auto flex justify-between">
+    <header class="bg-blue-600 text-white p-4 fixed w-full top-0 z-50">
+        <div class="container mx-auto flex justify-between items-center">
             <a href="#" class="text-xl font-bold">📚 Booket</a>
-            <input class="p-1 w-96 outline-none rounded-lg text-zinc-900" type="search" placeholder=" Search Your's choice">
-            <div>
-                <a href="/" class="mr-4 p-1 rounded-lg hover:bg-blue-800 ...">Home</a>
-                <a href="#about" class="mr-4 p-1 rounded-lg hover:bg-blue-800 ...">About</a>
-                <a href="#blog" class="mr-4 p-1 rounded-lg hover:bg-blue-800 ...">Blogs</a>
-                <a href="#contact" class="mr-4 p-1 rounded-lg hover:bg-blue-800 ...">Contact</a>
-                <a href="#" class="mr-4 p-1 rounded-lg hover:bg-blue-800 ...">List Book</a>
+                 <!-- Search Bar (Visible on large screens) -->
+            <input type="search" placeholder="Search Your's choice"
+                class="hidden lg:block p-2 w-96 outline-none rounded-lg text-zinc-900">
+
+            <!-- Desktop Navigation -->
+            <nav class="hidden md:flex space-x-4">
+                <a href="/" class="p-2 rounded-lg hover:bg-blue-800">Home</a>
+                <a href="./about.ejs" class="p-2 rounded-lg hover:bg-blue-800">About</a>
+                <a href="#blog" class="p-2 rounded-lg hover:bg-blue-800">Blogs</a>
+                <a href="#contact" class="p-2 rounded-lg hover:bg-blue-800">Contact</a>
+                <a href="#" class="p-2 rounded-lg hover:bg-blue-800">List Book</a>
                 <a href="/signup" class="bg-white text-blue-600 px-4 py-2 rounded-lg">My Account</a>
                 <a href="#" class="bg-white text-blue-600 px-4 py-2 rounded-lg">Cart</a>
-            </div>
+            </nav>
+
+            <!-- Hamburger Menu (Mobile) -->
+            <div id="menu-icon" class="md:hidden text-2xl cursor-pointer">☰</div>
         </div>
-    </nav>
+
+        <!-- Mobile Navigation Menu (Hidden by Default) -->
+        <div id="mobile-menu"
+            class="fixed top-0 right-0 w-64 h-full bg-blue-700 text-white flex flex-col items-center space-y-4 pt-20 transition-transform duration-300 transform translate-x-full">
+            <a href="/" class="p-2 hover:bg-blue-800">Home</a>
+            <a href="#about" class="p-2 hover:bg-blue-800">About</a>
+            <a href="#blog" class="p-2 hover:bg-blue-800">Blogs</a>
+            <a href="#contact" class="p-2 hover:bg-blue-800">Contact</a>
+            <a href="#" class="p-2 hover:bg-blue-800">List Book</a>
+            <a href="#" class="bg-white text-blue-600 px-4 py-2 rounded-lg">My Account</a>
+            <a href="#" class="bg-white text-blue-600 px-4 py-2 rounded-lg">Cart</a>
+        </div>
+    </header>
 
     <!-- Hero Section -->
     <section id="home" class="text-center py-16 bg-blue-50 h-98 overflow-visible">
@@ -37,300 +57,614 @@
         <p class="mt-2 text-white">Find the best deals on old and new
             books</p>
         <div class="mt-4 ">
-            <a href="/addbook" class="bg-blue-600 text-white py-2 px-6 rounded mr-2 transition-transform transform hover:scale-105">Add Books</a>
-            <a href="/booksbrowse" class="bg-green-500 bookbrowse text-white py-2 px-6 rounded transition-transform transform hover:scale-105">Browse Books</a>
+            <a href="/addbook"
+                class="bg-blue-600 text-white py-2 px-6 rounded mr-2 transition-transform transform hover:scale-105">Add
+                Books</a>
+            <a href="/booksbrowse"
+                class="bg-green-500 bookbrowse text-white py-2 px-6 rounded transition-transform transform hover:scale-105">Browse
+                Books</a>
         </div>
     </section>
 
     <!-- Categories Section -->
     <section class="container mx-auto my-10 px-4">
-        <h2 class="text-2xl p-2 font-semibold text-gray-800 bg-gradient-to-r from-blue-500 to-green-400 text-center w-full">
+        <!-- Section Title -->
+        <h2 id="category-heading"
+            class="text-4xl font-bold text-gray-800 text-center w-full p-4 bg-gradient-to-r from-blue-500 to-green-400 text-transparent bg-clip-text ">
             Explore Categories
-        </h2>        
-        <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mt-4">
-            <div class="bg-white p-4 rounded shadow hover-scale text-center">
-                <h3 class="font-bold text-lg">Purchase Old Books</h3>
+        </h2>
+
+        <!-- Categories Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-6">
+            <!-- Category 1 -->
+            <div
+                class="bg-gradient-to-r from-blue-400 to-green-400 p-6 rounded-lg shadow-xl hover:scale-105 hover:shadow-2xl transition-all duration-300 ease-in-out transform cursor-pointer">
+                <div class="flex justify-center mb-4">
+                    <img src="https://img.icons8.com/doodle/48/where-to-quest.png" alt="Icon"
+                        class="w-20 h-20 rounded-full bg-white p-2 shadow-lg">
+                </div>
+                <h3 class="font-semibold text-2xl text-white mb-2">Purchase Old Books</h3>
+                <p class="text-white text-sm mb-4">Buy second-hand books at great prices.</p>
+                <button
+                    class="bg-white text-blue-600 py-2 px-4 rounded-full w-full font-semibold hover:bg-blue-500 transition duration-300">Explore</button>
             </div>
-            <div class="bg-white p-4 rounded shadow hover-scale text-center">
-                <h3 class="font-bold text-lg">Exchange Old Books</h3>
+
+            <!-- Category 2 -->
+            <div
+                class="bg-gradient-to-r from-pink-400 to-yellow-400 p-6 rounded-lg shadow-xl hover:scale-105 hover:shadow-2xl transition-all duration-300 ease-in-out transform cursor-pointer">
+                <div class="flex justify-center mb-4">
+                    <img src="https://img.icons8.com/color/48/books.png" alt="Icon"
+                        class="w-20 h-20 rounded-full bg-white p-2 shadow-lg">
+                </div>
+                <h3 class="font-semibold text-2xl text-white mb-2">Exchange Old Books</h3>
+                <p class="text-white text-sm mb-4">Exchange your old books for others.</p>
+                <button
+                    class="bg-white text-pink-600 py-2 px-4 rounded-full w-full font-semibold hover:bg-pink-500 transition duration-300">Explore</button>
             </div>
-            <div class="bg-white p-4 rounded shadow hover-scale text-center">
-                <h3 class="font-bold text-lg">Purchased New Books</h3>
+
+            <!-- Category 3 -->
+            <div
+                class="bg-gradient-to-r from-teal-400 to-indigo-400 p-6 rounded-lg shadow-xl hover:scale-105 hover:shadow-2xl transition-all duration-300 ease-in-out transform cursor-pointer">
+                <div class="flex justify-center mb-4">
+                    <img src="https://img.icons8.com/clouds/100/store-front.png" alt="Icon"
+                        class="w-20 h-20 rounded-full bg-white p-2 shadow-lg">
+                </div>
+                <h3 class="font-semibold text-2xl text-white mb-2">Purchased New Books</h3>
+                <p class="text-white text-sm mb-4">Browse the latest collection of new books.</p>
+                <button
+                    class="bg-white text-teal-600 py-2 px-4 rounded-full w-full font-semibold hover:bg-teal-500 transition duration-300">Explore</button>
             </div>
         </div>
     </section>
 
-    <!-- Book Listings -->
+    <!-- Book Section -->
     <section class="container mx-auto my-10 px-4 bookbrowse">
-        <h2 class="text-2xl font-semibold text-gray-800 text-center">Available
-            Books</h2>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-4">
-            <!-- Sample Book Card -->
-            <div class="bg-white p-4 rounded shadow hover-shadow">
-                <img src="https://via.placeholder.com/150" alt="Book" class="w-full h-48 object-cover rounded">
-                <h3 class="font-bold text-lg mt-2">Book Title</h3>
-                <p class="text-gray-600">Author Name</p>
-                <p class="text-blue-600 font-bold mt-2">$10.99</p>
-                <button class="mt-2 bg-blue-600 text-white py-2 px-4 rounded w-full hover-shadow">Buy
-                    Now</button>
-            </div>
-            <div class="bg-white p-4 rounded shadow hover-shadow">
-                <img src="https://via.placeholder.com/150" alt="Book" class="w-full h-48 object-cover rounded">
-                <h3 class="font-bold text-lg mt-2">Book Title</h3>
-                <p class="text-gray-600">Author Name</p>
-                <p class="text-blue-600 font-bold mt-2">$12.99</p>
-                <button class="mt-2 bg-blue-600 text-white py-2 px-4 rounded w-full hover-shadow">Buy
-                    Now</button>
-            </div>
-            <div class="bg-white p-4 rounded shadow hover-shadow">
-                <img src="https://via.placeholder.com/150" alt="Book" class="w-full h-48 object-cover rounded">
-                <h3 class="font-bold text-lg mt-2">Book Title</h3>
-                <p class="text-gray-600">Author Name</p>
-                <p class="text-blue-600 font-bold mt-2">$9.99</p>
-                <button class="mt-3 bg-blue-600 text-white py-2 px-4 rounded w-full hover-shadow">Buy
-                    Now</button>
-            </div>
-            
-        </div>
-        <a class="text-2xl text-center block mt-4 transition-transform transform hover:scale-105" href="/booksbrowse">Explore books -></a>
-    </section>
+        <h2 id="category-heading"
+            class="text-4xl font-bold text-gray-800 text-center w-full p-4 bg-gradient-to-r from-blue-500 to-green-400 text-transparent bg-clip-text ">
+            Available Books
+        </h2>
+        <div id="book-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-4">
+            <!-- Sample Books (Initially Visible) -->
+            <div
+                class="book-card bg-white p-4 rounded shadow-lg transition duration-300 hover:shadow-2xl hover:scale-105 flex flex-col items-center h-full relative overflow-hidden">
+                <!-- "New Book" Label -->
+                <span
+                    class="absolute top-3 left-3 bg-gradient-to-r from-red-500 to-orange-400 text-white px-3 py-1 text-sm z-10 font-bold rounded-md shadow-md transition-all duration-300 hover:scale-110 hover:from-red-600 hover:to-orange-500 ">
+                    New Book
+                </span>
 
-    <!-- Blog Post Section -->
-    <section id="blog" class="p-12 bg-white">
-        <h2 class="text-3xl font-bold text-center mb-8 text-gray-800">User
-            Blog & Feedback</h2>
-        <!-- User Post Form -->
-        <div
-            class="max-w-2xl mx-auto mb-8 blog-post-form bg-gradient-to-r from-green-400 to-blue-500 p-8 rounded-lg shadow-lg">
-            <h3 class="text-xl font-semibold mb-4 text-white">Share Your
-                Feedback</h3>
-            <input type="text" id="user-name" placeholder="Your Name"
-                class="w-full p-3 border border-gray-300 rounded mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                required>
-            <input type="file" id="user-photo" class="w-full p-3 border border-gray-300 rounded mb-4 focus:outline-none"
-                required>
-            <textarea id="user-post" placeholder="Write your feedback..."
-                class="w-full p-3 border border-gray-300 rounded mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                required></textarea>
-            <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition duration-300 w-full"
-                onclick="submitPost()">Post</button>
-        </div>
-
-        <!-- Existing Blog Posts (Sample Posts) -->
-        <div class="max-w-2xl mx-auto mb-8">
-            <h3 class="text-xl font-semibold mb-4 text-gray-800">Sample Blog
-                Posts</h3>
-            <div class="bg-gray-100 p-4 rounded mb-4">
-                <img src="/images/user1.jpg" alt="User Photo" class="w-12 h-12 rounded-full mb-2">
-                <p class="font-semibold">John Doe</p>
-                <p class="text-gray-700">This platform is amazing! I found
-                    the exact book I was looking for at a great
-                    price.</p>
-                <button class="text-blue-500 mt-2" onclick="togglePostDetails(this)">Show Less</button>
-                <p class="text-gray-600 mt-2 hidden">I highly recommend this
-                    platform. The books are affordable and the
-                    user interface is really simple to use. It made my book
-                    buying process seamless!</p>
-            </div>
-
-            <div class="bg-gray-100 p-4 rounded mb-4">
-                <img src="/images/user2.jpg" alt="User Photo" class="w-12 h-12 rounded-full mb-2">
-                <p class="font-semibold">Jane Smith</p>
-                <p class="text-gray-700">I successfully sold my old books
-                    here. The process was seamless and easy!</p>
-                <button class="text-blue-500 mt-2" onclick="togglePostDetails(this)">Show Less</button>
-                <p class="text-gray-600 mt-2 hidden">It was so easy to sell
-                    my books on this platform. I just listed
-                    them and received responses from buyers quickly. It was
-                    a smooth experience!</p>
-            </div>
-        </div>
-
-        <!-- User-Submitted Posts (Scrollable Box) -->
-        <div class="max-w-2xl mx-auto mb-8">
-            <h3 class="text-xl font-semibold mb-4 text-gray-800">User-Submitted
-                Posts</h3>
-            <div class="overflow-y-scroll max-h-[300px]" id="scrollable-posts">
-                <!-- User submitted posts will be added here -->
-            </div>
-
-            <!-- Blog Posts - Show More -->
-            <button
-                class="bg-blue-600 text-white px-4 py-2 rounded mt-4 hover:bg-blue-700 transition duration-300 w-full"
-                onclick="toggleBlogPosts()">Show More</button>
-        </div>
-    </section>
-
-    <!-- FAQ Section -->
-    <section id="faq" class="p-12 bg-white">
-        <h2 class="text-3xl font-bold text-center mb-8 text-gray-800">Frequently
-            Asked Questions</h2>
-        <div class="max-w-2xl mx-auto">
-            <!-- FAQ Questions -->
-            <div class="mb-4 border-b">
-                <button class="w-full text-left py-3 text-lg font-medium focus:outline-none"
-                    onclick="toggleFAQ('faq1')">➕ How do I sell a
-                    book?</button>
-                <p id="faq1" class="hidden text-gray-600 px-4 pb-3">To sell
-                    a book, go to the "Sell Books" section, fill
-                    out the form with the book details, and submit your
-                    listing.</p>
-            </div>
-            <div class="mb-4 border-b">
-                <button class="w-full text-left py-3 text-lg font-medium focus:outline-none"
-                    onclick="toggleFAQ('faq2')">➕ How do I buy a
-                    book?</button>
-                <p id="faq2" class="hidden text-gray-600 px-4 pb-3">Browse
-                    available books, click on "Buy Now," and
-                    follow the checkout process.</p>
-            </div>
-            <div class="mb-4 border-b">
-                <button class="w-full text-left py-3 text-lg font-medium focus:outline-none"
-                    onclick="toggleFAQ('faq3')">➕ How to exchange books?</button>
-                <p id="faq3" class="hidden text-gray-600 px-4 pb-3">First, you list your book and then Browse available books, click on "Exchange," and select option then follow the checkout process.</p>
-            </div>
-            <div class="mb-4 border-b">
-                <button class="w-full text-left py-3 text-lg font-medium focus:outline-none"
-                    onclick="toggleFAQ('faq4')">➕ Any charge for self exchange option?</button>
-                <p id="faq4" class="hidden text-gray-600 px-4 pb-3">There is no any fee charge for self exchange option.</p>
-            </div>
-        </div>
-
-        <!-- User Query Form -->
-        <div class="max-w-2xl mx-auto mt-8">
-            <h3 class="text-xl font-semibold mb-4">Ask a Question</h3>
-            <input type="text" id="user-question" placeholder="Type your question here..."
-                class="w-full p-3 border border-gray-300 rounded mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500">
-            <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition duration-300"
-                onclick="submitQuestion()">Submit</button>
-
-            <div class="mt-6">
-                <h3 class="text-xl font-semibold mb-4">Previous
-                    Questions</h3>
-                <ul id="question-list" class="text-gray-700 space-y-4">
-                    <!-- Sample Question 1 -->
-                    <li class="flex flex-col bg-gray-100 p-4 rounded shadow-md">
-                        <div class="flex justify-between">
-                            <p class="font-semibold">What is the shipping
-                                time?</p>
-                            <div class="flex space-x-2">
-                                <!-- <button class="text-blue-500" onclick="toggleQuestionDetails(this)">Read
-                                    More</button> -->
-                                <button class="text-blue-500" onclick="replyToQuestion(this)">Reply</button>
-                            </div>
-                        </div>
-                        <p class="text-gray-600 mt-2 hidden">The shipping
-                            time usually takes 3-5 business days depending
-                            on your location.</p>
-                        <div class="flex mt-2">
-                            <button class="text-blue-500 mr-2" onclick="toggleLikeDislike(this, 'like')">👍
-                                Like</button>
-                            <button class="text-red-500" onclick="toggleLikeDislike(this, 'dislike')">👎
-                                Dislike</button>
-                        </div>
-                        <ul class="reply-list mt-2">
-                            <!-- Replies will go here -->
-                        </ul>
-                    </li>
-
-                    <!-- Sample Question 2 -->
-                    <li class="flex flex-col bg-gray-100 p-4 rounded shadow-md">
-                        <div class="flex justify-between">
-                            <p class="font-semibold">How can I sell my
-                                books?</p>
-                            <div class="flex space-x-2">
-                                <!-- <button class="text-blue-500" onclick="toggleQuestionDetails(this)">Read
-                                    More</button> -->
-                                <button class="text-blue-500" onclick="replyToQuestion(this)">Reply</button>
-                            </div>
-                        </div>
-                        <p class="text-gray-600 mt-2 hidden">To sell your
-                            books, visit the "Sell Books" section and fill
-                            out the required details.</p>
-                        <div class="flex mt-2">
-                            <button class="text-blue-500 mr-2" onclick="toggleLikeDislike(this, 'like')">👍
-                                Like</button>
-                            <button class="text-red-500" onclick="toggleLikeDislike(this, 'dislike')">👎
-                                Dislike</button>
-                        </div>
-                        <ul class="reply-list mt-2">
-                            <!-- Replies will go here -->
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </section>
-    <!-- Contact Section -->
-    <section id="contact" class="p-12 bg-gray-100">
-        <h2 class="text-3xl font-bold text-center mb-8 text-gray-800">Contact
-            Us</h2>
-        <div class="max-w-2xl mx-auto text-center">
-            <p class="mb-4 text-gray-700">Have any questions or need
-                assistance? Feel free to reach out to us!</p>
-            <form class="bg-white p-6 shadow-lg rounded-lg">
-                <input type="text" placeholder="Your Name" class="w-full p-3 border border-gray-300 rounded mb-4"
-                    required>
-                <input type="email" placeholder="Your Email" class="w-full p-3 border border-gray-300 rounded mb-4"
-                    required>
-                <textarea placeholder="Your Message" class="w-full p-3 border border-gray-300 rounded mb-4"
-                    required></textarea>
-                <button type="submit"
-                    class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition duration-300">Send
-                    Message</button>
-            </form>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="bg-gray-900 text-white py-8">
-        <div class="container mx-auto px-6">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
-                <!-- Logo & Description -->
-                <div>
-                    <h2 class="text-2xl font-bold">📚 BookStore</h2>
-                    <p class="mt-2 text-gray-400">
-                        Your one-stop destination to buy, sell, and exchange
-                        books with ease.
-                    </p>
+                <!-- Book Image -->
+                <div class="relative w-full h-80 mb-4">
+                    <img src="https://www.richdad.com/MediaLibrary/RichDad/Images/3d-books/2020/front-covers/3d-front-RDPD.png"
+                        alt="Book" class="w-full h-full object-cover rounded-md">
                 </div>
 
-                <!-- Quick Links -->
-                <div>
-                    <h3 class="text-lg font-semibold">Quick Links</h3>
-                    <ul class="mt-2 space-y-2">
-                        <li><a href="#home" class="hover:text-blue-400">Home</a></li>
-                        <li><a href="#about" class="hover:text-blue-400">About</a></li>
-                        <li><a href="#blog" class="hover:text-blue-400">Blogs</a></li>
-                        <li><a href="#contact" class="hover:text-blue-400">Contact</a></li>
+                <!-- Book Details -->
+                <h3 class="font-bold text-lg mt-1">Rich Dad Poor Dad</h3>
+                <p class="text-gray-600">Robert Kiyosaki</p>
+                <p class="text-blue-600 font-bold mt-1">₹2999</p>
+
+                <!-- Buy Now Button -->
+                <button
+                    class="mt-2 bg-blue-600 text-white py-2 px-4 rounded w-full hover:bg-blue-700 hover:shadow-xl transition-all duration-300">
+                    Buy Now
+                </button>
+            </div>
+            <div
+                class="book-card bg-white p-4 rounded shadow-lg transition duration-300 hover:shadow-2xl hover:scale-105 flex flex-col items-center h-full relative overflow-hidden">
+                <!-- "New Book" Label -->
+                <span
+                    class="absolute top-3 left-3 bg-gradient-to-r from-red-500 to-orange-400 text-white px-3 py-1 z-10 text-sm font-bold rounded-md shadow-md transition-all duration-300 hover:scale-110 hover:from-red-600 hover:to-orange-500">
+                    Old Book
+                </span>
+
+                <!-- Book Image -->
+                <div class="relative w-full h-80 mb-4">
+                    <img src="https://www.roaringcreationsfilms.com/rcsfilms-media/think.png" alt="Book"
+                        class="w-full h-full object-cover rounded-md">
+                </div>
+
+                <!-- Book Details -->
+                <h3 class="font-bold text-lg mt-1">Think & Grow Rich</h3>
+                <p class="text-gray-600">Napoleon Hill</p>
+                <p class="text-blue-600 font-bold mt-1">₹599</p>
+
+                <!-- Buy Now Button -->
+                <button
+                    class="mt-2 bg-blue-600 text-white py-2 px-4 rounded w-full hover:bg-blue-700 hover:shadow-xl transition-all duration-300">
+                    Buy Now
+                </button>
+            </div>
+            <div
+                class="book-card bg-white p-4 rounded shadow-lg transition duration-300 hover:shadow-2xl hover:scale-105 flex flex-col items-center h-full relative">
+                <!-- "Old Book" Label (Now Always Visible) -->
+                <span
+                    class="absolute top-3 left-3 bg-gradient-to-r from-red-500 to-orange-600 text-white px-3 py-1 text-sm font-bold rounded-md shadow-md z-10 transition-all duration-300 hover:scale-110 hover:from-red-600 hover:to-orange-500">
+                    Old Book
+                </span>
+
+                <!-- Book Image -->
+                <div class="relative w-full h-80 mb-4 z-0">
+                    <img src="https://p7.hiclipart.com/preview/37/252/1019/harry-potter-and-the-chamber-of-secrets-harry-potter-and-the-philosopher-s-stone-book-hogwarts-harry-potter.jpg"
+                        alt="Book" class="w-full h-full object-cover rounded-md">
+                </div>
+
+                <!-- Book Details -->
+                <h3 class="font-bold text-lg mt-1">Harry Potter</h3>
+                <p class="text-gray-600">J.K Rowling</p>
+                <p class="text-blue-600 font-bold mt-1">₹499</p>
+
+                <!-- Buy Now Button -->
+                <button
+                    class="mt-2 bg-blue-600 text-white py-2 px-4 rounded w-full hover:bg-blue-700 hover:shadow-xl transition-all duration-300">
+                    Buy Now
+                </button>
+            </div>
+        </div>
+        <!-- Explore Books Button -->
+        <div class="flex justify-center items-center mt-6">
+            <button id="load-more"
+                class="text-xl font-bold px-6 py-3 rounded-full bg-gradient-to-r from-blue-500 to-green-400 text-white shadow-lg hover:scale-105 hover:shadow-xl transition-all duration-300">
+                <a class="books-loading" href="/booksbrowse">Explore books -></a>
+            </button>
+        </div>
+    </section>
+
+
+    <section id="services">
+        <div class="bg-cover flex items-center justify-center flex-col">
+            <h2 id="category-heading"
+                class="text-4xl font-bold text-gray-800 text-center w-full p-4 pb-10 bg-gradient-to-r from-red-500 to-orange-400 text-transparent bg-clip-text ">
+                Read From Our Blogs
+            </h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12">
+                <!-- Service 1 -->
+                <div
+                    class="min-h-[550px] max-w-[450px] bg-green-200 bg-opacity-90 border-2 border-opacity-200 border-blue-200 rounded-2xl mx-8 p-8 flex flex-col items-center justify-center text-center gap-6 cursor-pointer transition-all duration-300 hover:border-main-color hover:scale-105 hover:shadow-lg">
+                    <img src="https://img.icons8.com/doodle/48/where-to-quest.png" alt=""
+                        class="w-60 rounded-full border-4 border-opacity-200 border-blue-200 ">
+                    <h2 class="text-2xl font-bold">Where and how to sell old books online?</h2>
+                    <div class="flex">
+                        <i class="bx bxs-star text-yellow-500 text-2xl "></i>
+                        <i class="bx bxs-star text-yellow-500 text-2xl"></i>
+                        <i class="bx bxs-star text-yellow-500 text-2xl"></i>
+                        <i class="bx bxs-star text-yellow-500 text-2xl"></i>
+                        <i class="bx bxs-star text-yellow-500 text-2xl"></i>
+                    </div>
+                    <p class="text-lg">To sell a book on Booket, all you need to do is follow these 3 steps...</p>
+                </div>
+                <!-- Service 2 -->
+                <div
+                    class="min-h-[550px] max-w-[450px] bg-green-200 bg-opacity-90 border-2 border-opacity-200 border-blue-200 rounded-2xl mx-8 p-8 flex flex-col items-center justify-center text-center gap-6 cursor-pointer transition-all duration-300 hover:border-main-color hover:scale-105 hover:shadow-lg">
+                    <img src="https://img.icons8.com/color/48/books.png" alt=""
+                        class="w-60 rounded-full border-4 border-opacity-200 border-blue-200 ">
+                    <h2 class="text-2xl font-bold">What to do with old books?</h2>
+                    <div class="flex">
+                        <i class="bx bxs-star text-yellow-500 text-2xl"></i>
+                        <i class="bx bxs-star text-yellow-500 text-2xl"></i>
+                        <i class="bx bxs-star text-yellow-500 text-2xl"></i>
+                        <i class="bx bxs-star text-yellow-500 text-2xl"></i>
+                        <i class="bx bxs-star text-black-500 text-2xl"></i>
+                    </div>
+                    <p class="text-lg">After reading new books, resell used books to others. Here's how you can find a
+                        buyer...</p>
+                </div>
+                <!-- Service 3 -->
+                <div
+                    class="min-h-[550px] max-w-[450px] bg-green-200 bg-opacity-90 border-2 border-opacity-200 border-blue-200 rounded-2xl mx-8 p-8 flex flex-col items-center justify-center text-center gap-6 cursor-pointer transition-all duration-300 hover:border-main-color hover:scale-105 hover:shadow-lg">
+                    <img src="https://img.icons8.com/clouds/100/store-front.png" alt=""
+                        class="w-60 rounded-full border-4 border-opacity-200 border-blue-200 ">
+                    <h2 class="text-2xl font-bold">What is Booket?</h2>
+                    <div class="flex">
+                        <i class="bx bxs-star text-yellow-500 text-2xl"></i>
+                        <i class="bx bxs-star text-yellow-500 text-2xl"></i>
+                        <i class="bx bxs-star text-yellow-500 text-2xl"></i>
+                        <i class="bx bxs-star text-yellow-500 text-2xl"></i>
+                        <i class="bx bxs-star text-yellow-500 text-2xl"></i>
+                    </div>
+                    <p class="text-lg">Booket is a platform where you can easily sell your used books. Here's how to get
+                        started...</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <div class="container mx-auto px-4 py-12">
+        <div class="text-center">
+            <h2 class="text-4xl font-extrabold text-gray-800">How to <span
+                    class="text-gradient bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">SELL</span>
+                your old books online on Booket?</h2>
+            <p class="text-xl mt-4">Well, you can sell your old used books very easily on Booket for actual cash.</p>
+            <p class="px-5 pt-2 inline-block font-semibold text-lg">Earning money by selling your old books is just <b>3
+                    steps</b> away from you <span class="font-bold text-primary text-2xl"></span></p>
+
+            <!-- Steps -->
+            <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 mt-10">
+                <!-- Step 1 -->
+                <li class="flex flex-col items-center">
+                    <div
+                        class="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 p-8 rounded-full shadow-xl mb-6">
+                        <img class="w-20 h-20 object-contain"
+                            src="https://img.icons8.com/3d-fluency/94/reading-an-open-book.png"
+                            alt="Book Selling Add" />
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-800">Post an ad for selling used books</h3>
+                    <p class="text-center mt-2 text-gray-600">Post an ad on Booket describing your book details to sell
+                        your old books online.</p>
+                </li>
+
+                <!-- Step 2 -->
+                <li class="flex flex-col items-center">
+                    <div
+                        class="bg-gradient-to-r from-yellow-500 via-red-500 to-pink-500 p-8 rounded-full shadow-xl mb-6">
+                        <img class="w-20 h-20 object-contain" src="https://img.icons8.com/fluency/48/average-2.png"
+                            alt="Set price" />
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-800">Set the selling price for your books</h3>
+                    <p class="text-center mt-2 text-gray-600">Set the price for your books at which you want to sell
+                        them.</p>
+                </li>
+
+                <!-- Step 3 -->
+                <li class="flex flex-col items-center">
+                    <div
+                        class="bg-gradient-to-r from-green-500 via-blue-600 to-purple-600 p-8 rounded-full shadow-xl mb-6">
+                        <img src="https://img.icons8.com/dusk/64/merchant-account.png" class="w-20 h-20 object-contain"
+                            alt="Money released">
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-800">Get paid into your UPI/Bank account</h3>
+                    <p class="text-center mt-2 text-gray-600">You will get money into your account once you receive an
+                        order for your book.</p>
+                </li>
+            </ul>
+
+            <!-- <div class="flex justify-center mt-8">
+            <iframe class="rounded shadow" width="560" height="315" src="https://www.youtube.com/embed/Rwj6vi55hHw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          </div> -->
+        </div>
+    </div>
+
+    <div class="container mx-auto px-4 py-12">
+        <div class="text-center">
+            <h2 class="text-4xl font-extrabold text-gray-800">How to <span
+                    class="text-gradient bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">BUY</span>
+                books on Booket?</h2>
+            <p class="text-xl mt-4">Buying books on Booket is easy, fast, and affordable!</p>
+            <p class="px-5 pt-2 inline-block font-semibold text-lg">Just follow these <b>3 simple steps</b> <span
+                    class="font-bold text-primary text-2xl"></span></p>
+
+            <!-- Steps -->
+            <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 mt-10">
+                <!-- Step 1 -->
+                <li class="flex flex-col items-center">
+                    <div
+                        class="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 p-8 rounded-full shadow-xl mb-6">
+                        <img src="https://img.icons8.com/emoji/48/open-book-emoji.png" class="w-20 h-20 object-contain"
+                            alt="Search books">
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-800">Search for books</h3>
+                    <p class="text-center mt-2 text-gray-600">Browse and find your desired books from a wide selection
+                        of categories.</p>
+                </li>
+
+                <!-- Step 2 -->
+                <li class="flex flex-col items-center">
+                    <div
+                        class="bg-gradient-to-r from-yellow-500 via-red-500 to-pink-500 p-8 rounded-full shadow-xl mb-6">
+                        <img src="https://img.icons8.com/fluency/48/buy.png" class="w-20 h-20 object-contain"
+                            alt="Add to cart">
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-800">Add books to your cart</h3>
+                    <p class="text-center mt-2 text-gray-600">Add the selected books to your cart and review your
+                        purchase.</p>
+                </li>
+
+                <!-- Step 3 -->
+                <li class="flex flex-col items-center">
+                    <div
+                        class="bg-gradient-to-r from-green-500 via-blue-600 to-purple-600 p-8 rounded-full shadow-xl mb-6">
+                        <img src="https://img.icons8.com/fluency/48/withdrawal.png" class="w-20 h-20 object-contain"
+                            alt="Complete purchase">
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-800">Complete your purchase</h3>
+                    <p class="text-center mt-2 text-gray-600">Confirm your order and make payment to complete your
+                        purchase.</p>
+                </li>
+            </ul>
+
+            <!-- <div class="flex justify-center mt-8">
+            <iframe class="rounded shadow" width="560" height="315" src="https://www.youtube.com/embed/xyz-video-id" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          </div> -->
+        </div>
+    </div>
+
+    <div class="container mx-auto px-4 py-12">
+        <div class="text-center">
+            <h2 class="text-4xl font-extrabold text-gray-800">How to <span
+                    class="text-gradient bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">EXCHANGE</span>
+                your books on Booket?</h2>
+            <p class="text-xl mt-4">Exchanging books on Booket is simple and hassle-free!</p>
+            <p class="px-5 pt-2 inline-block font-semibold text-lg">Follow these <b>3 easy steps</b> <span
+                    class="font-bold text-primary text-2xl"></span></p>
+
+            <!-- Steps -->
+            <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 mt-10">
+                <!-- Step 1 -->
+                <li class="flex flex-col items-center">
+                    <div
+                        class="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 p-8 rounded-full shadow-xl mb-6">
+                        <img src="https://img.icons8.com/fluency/48/choose.png" class="w-20 h-20 object-contain"
+                            alt="Exchange books">
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-800">Choose books for exchange</h3>
+                    <p class="text-center mt-2 text-gray-600">Pick the books you want to exchange from your collection
+                        and browse available exchanges.</p>
+                </li>
+
+                <!-- Step 2 -->
+                <li class="flex flex-col items-center">
+                    <div
+                        class="bg-gradient-to-r from-yellow-500 via-red-500 to-pink-500 p-8 rounded-full shadow-xl mb-6">
+                        <img src="https://img.icons8.com/fluency/48/transfer-between-users.png"
+                            class="w-20 h-20 object-contain" alt="Select exchange">
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-800">Select your desired exchange</h3>
+                    <p class="text-center mt-2 text-gray-600">Choose the book you want to receive in exchange.</p>
+                </li>
+
+                <!-- Step 3 -->
+                <li class="flex flex-col items-center">
+                    <div
+                        class="bg-gradient-to-r from-green-500 via-blue-600 to-purple-600 p-8 rounded-full shadow-xl mb-6">
+                        <img src="https://img.icons8.com/fluency/48/reviewer-female.png"
+                            class="w-20 h-20 object-contain" alt="Confirm exchange">
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-800">Confirm your exchange</h3>
+                    <p class="text-center mt-2 text-gray-600">Confirm the exchange details and proceed with the trade.
+                    </p>
+                </li>
+            </ul>
+
+            <!-- <div class="flex justify-center mt-8">
+            <iframe class="rounded shadow" width="560" height="315" src="https://www.youtube.com/embed/xyz-video-id" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          </div> -->
+        </div>
+    </div>
+
+    <section class="faqandcontact">
+        <!-- FAQ Section -->
+        <section id="faq" class="p-12 bg-white">
+            <h2 class="text-3xl font-bold text-center mb-8 text-gray-800">Frequently Asked Questions</h2>
+            <div class="max-w-2xl mx-auto">
+                <!-- FAQ Questions -->
+                <div class="mb-4 border-b">
+                    <button class="w-full text-left py-3 text-lg font-medium focus:outline-none"
+                        onclick="toggleFAQ('faq1')">➕ How do I sell a book?</button>
+                    <p id="faq1" class="hidden text-gray-600 px-4 pb-3">To sell a book, go to the "Sell Books" section,
+                        fill out the form with the book details, and submit your listing.</p>
+                </div>
+                <div class="mb-4 border-b">
+                    <button class="w-full text-left py-3 text-lg font-medium focus:outline-none"
+                        onclick="toggleFAQ('faq2')">➕ How do I buy a book?</button>
+                    <p id="faq2" class="hidden text-gray-600 px-4 pb-3">Browse available books, click on "Buy Now," and
+                        follow the checkout process.</p>
+                </div>
+                <div class="mb-4 border-b">
+                    <button class="w-full text-left py-3 text-lg font-medium focus:outline-none"
+                        onclick="toggleFAQ('faq3')">➕ How to exchange books?</button>
+                    <p id="faq3" class="hidden text-gray-600 px-4 pb-3">First, you list your book and then Browse
+                        available books, click on "Exchange," and select option then follow the checkout process.</p>
+                </div>
+                <div class="mb-4 border-b">
+                    <button class="w-full text-left py-3 text-lg font-medium focus:outline-none"
+                        onclick="toggleFAQ('faq4')">➕ Any charge for self exchange option?</button>
+                    <p id="faq4" class="hidden text-gray-600 px-4 pb-3">There is no any fee charge for self exchange
+                        option.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="p-12 bg-gray-100">
+            <h2 class="text-3xl font-bold text-center mb-8 text-gray-800">Contact Us</h2>
+
+            <!-- Responsive Grid Layout -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10 items-center max-w-5xl mx-auto">
+                <!-- Contact Image (Hidden on Small Screens) -->
+                <div class="hidden md:block">
+                    <img src="https://www.nicepng.com/png/full/70-700924_contact-us-png-contact.png"
+                        class="w-full max-w-sm mx-auto animate-fade-in" alt="Contact">
+                </div>
+
+                <!-- Contact Form -->
+                <div
+                    class="bg-white p-8 rounded-lg shadow-lg transition-all duration-300 hover:shadow-2xl hover:scale-105">
+                    <p class="mb-4 text-gray-700 text-center text-lg font-medium">Have any questions or need assistance?
+                        Feel free to reach out to us!</p>
+                    <form class="space-y-4">
+                        <input type="text" placeholder="Your Name"
+                            class="w-full p-3 border border-gray-300 rounded focus:border-blue-500 focus:ring-2 focus:ring-blue-400 transition-all duration-300"
+                            required>
+                        <input type="email" placeholder="Your Email"
+                            class="w-full p-3 border border-gray-300 rounded focus:border-blue-500 focus:ring-2 focus:ring-blue-400 transition-all duration-300"
+                            required>
+                        <textarea placeholder="Your Message"
+                            class="w-full p-3 border border-gray-300 rounded focus:border-blue-500 focus:ring-2 focus:ring-blue-400 transition-all duration-300"
+                            required></textarea>
+
+                        <button type="submit"
+                            class="w-full bg-gradient-to-r from-blue-500 to-green-500 text-white font-bold py-3 rounded-md shadow-md hover:from-green-500 hover:to-blue-500 transition-all duration-300">
+                            Send Message 🚀
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+    </section>
+
+
+
+    <footer class="footer pt-10 bg-gray-900 text-white">
+        <div class="container mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 pb-2">
+
+                <!-- About Us -->
+                <div class="col mb-4">
+                    <div class="text-muted pb-4 text-uppercase font-bold text-xl">About Us</div>
+                    <ul class="space-y-2">
+                        <li><a href="/about-us" class="text-lg hover:text-blue-400">About Us</a></li>
+                        <li><a href="/contact-us" class="text-lg hover:text-blue-400">Contact Us</a></li>
+                        <li><a href="/feedback" class="text-lg hover:text-blue-400">Leave Us Feedback</a></li>
+                        <li><a href="/blog" class="text-lg hover:text-blue-400">Blog</a></li>
                     </ul>
                 </div>
 
-                <!-- Social Media -->
-                <div>
-                    <h3 class="text-lg font-semibold">Follow Us</h3>
-                    <div class="mt-2 flex justify-center space-x-4">
-                        <a href="https://facebook.com" target="_blank" class="text-white text-2xl hover:text-blue-400">
-                            <i class="fab fa-facebook-f"></i>
-                        </a>
-                        <a href="https://twitter.com" target="_blank" class="text-white text-2xl hover:text-blue-400">
-                            <i class="fab fa-twitter"></i>
-                        </a>
-                        <a href="https://instagram.com" target="_blank" class="text-white text-2xl hover:text-pink-400">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                        <a href="https://linkedin.com" target="_blank" class="text-white text-2xl hover:text-blue-600">
-                            <i class="fab fa-linkedin-in"></i>
-                        </a>
+                <!-- Useful Links -->
+                <div class="col mb-4">
+                    <div class="text-muted pb-4 text-uppercase font-bold text-xl">Useful Links</div>
+                    <ul class="space-y-2">
+                        <li><a href="/how-it-works" class="text-lg hover:text-blue-400">How it works?</a></li>
+                        <li><a href="/teleport" class="text-lg hover:text-blue-400">Booket Teleport</a></li>
+                        <li><a href="/faq" class="text-lg hover:text-blue-400">Frequently Asked Questions (FAQs)</a>
+                        </li>
+                        <li><a href="/chat-guidelines" class="text-lg hover:text-blue-400">Chat Guidelines</a></li>
+                        <li class="footer-link-c">
+                            <a href="/terms" class="text-lg hover:text-blue-400">Terms Of Use</a> /
+                            <a href="/listing-policy" class="text-lg hover:text-blue-400">Listing Policy</a> /
+                            <a href="/privacy-policy" class="text-lg hover:text-blue-400">Privacy Policy</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Stay Connected -->
+                <div class="col mb-4">
+                    <div class="text-muted pb-4 text-uppercase font-bold text-xl">Stay Connected</div>
+                    <div class="social-links pb-2 mb-4">
+                        <div class="flex space-x-4">
+                            <a href="https://www.facebook.com/booket/" target="_blank" rel="noopener noreferrer">
+                                <i class="bx bxl-facebook text-2xl hover:text-blue-500"></i>
+                            </a>
+                            <a href="https://www.instagram.com/booket/" target="_blank" rel="noopener noreferrer">
+                                <i class="bx bxl-instagram text-2xl hover:text-blue-500"></i>
+                            </a>
+                            <a href="https://www.youtube.com/@booket" target="_blank" rel="noopener noreferrer">
+                                <i class="bx bxl-youtube text-2xl hover:text-blue-500"></i>
+                            </a>
+                            <a href="https://twitter.com/booketTeam" target="_blank" rel="noopener noreferrer">
+                                <i class="bx bxl-twitter text-2xl hover:text-blue-500"></i>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <hr class="my-6 border-gray-700">
+        <div class="pt-5 bg-gray-800">
+            <div class="container mx-auto pb-15 pb-sm-0">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 justify-between pb-3">
+                    <div class="d-flex items-center">
+                        <i class="bi bi-credit-card text-dark"></i>
+                        <div class="ps-3">
+                            <span class="fs-3 text-dark mb-1">Secure Payment</span>
+                            <p class="mb-0 text-gray-400">100% Secure Online Transaction</p>
+                        </div>
+                    </div>
+                    <div class="d-flex items-center">
+                        <i class="bi bi-patch-check text-dark"></i>
+                        <div class="ps-3">
+                            <span class="fs-3 text-dark mb-1">Booket Trust</span>
+                            <p class="mb-0 text-gray-400">Money stored safely & transferred to the seller only after
+                                buyer confirmation</p>
+                        </div>
+                    </div>
+                    <div class="d-flex items-center">
+                        <i class="bi bi-chat-dots text-dark"></i>
+                        <div class="ps-3">
+                            <span class="fs-3 text-dark mb-1">Customer Support</span>
+                            <p class="mb-0 text-gray-400">Friendly customer support</p>
+                        </div>
+                    </div>
+                </div>
 
-            <!-- Copyright -->
-            <div class="text-center text-gray-400 text-sm">
-                &copy; 2025 BookStore - All Rights Reserved
+                <hr class="border-gray-600 mb-5">
+
+                <div class="row text-center text-md-start">
+                    <p class="text-gray-300">Booket is a free platform where you can buy second-hand books at very cheap
+                        prices. Well at Booket, you can also sell used books online in India for actual cash. Buy used
+                        books online like college books, school books, reading books, much more near you.</p>
+                </div>
+
+                <hr class="border-gray-600 mb-5">
+
+                <div class="row text-center text-md-start">
+                    <!-- Copyright Section -->
+                    <div class="col-md-6 col-sm-6 mt-5 text-center text-md-left">
+                        Copyright © 2025, <b>Booket™</b> All Rights Reserved
+                    </div>
+
+                    <!-- Payment Icons Section -->
+                    <div class="col-md-6 col-sm-6 pb-5 pt-5 flex justify-center items-center">
+                        <ul class="list-unstyled flex justify-center space-x-6">
+
+                            <!-- Visa -->
+                            <li class="transform hover:scale-105 transition-transform duration-300 ease-in-out">
+                                <div
+                                    class="bg-gradient-to-r from-indigo-500 via-purple-600 to-pink-600 p-2 w-16 h-10 flex items-center justify-center rounded-md">
+                                    <a href="#" target="_blank" rel="noopener noreferrer">
+                                        <i class="bx bxl-visa text-3xl text-white"></i>
+                                    </a>
+                                </div>
+                            </li>
+
+                            <!-- MasterCard -->
+                            <li class="transform hover:scale-105 transition-transform duration-300 ease-in-out">
+                                <div
+                                    class="bg-gradient-to-r from-red-500 via-yellow-600 to-orange-600 p-2 w-16 h-10 flex items-center justify-center rounded-md">
+                                    <a href="#" target="_blank" rel="noopener noreferrer">
+                                        <i class="bx bxl-mastercard text-3xl text-white"></i>
+                                    </a>
+                                </div>
+                            </li>
+
+                            <!-- RuPay -->
+                            <li class="transform hover:scale-105 transition-transform duration-300 ease-in-out">
+                                <div
+                                    class="bg-gradient-to-r from-indigo-500 via-purple-600 to-pink-600 p-2 w-16 h-10 flex items-center justify-center rounded-md">
+                                    <a href="#" target="_blank" rel="noopener noreferrer">
+                                        <img src="https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/rupay-logo-icon.png"
+                                            alt="RuPay" class="w-14 h-7">
+                                    </a>
+                                </div>
+                            </li>
+
+                            <!-- Paytm -->
+                            <li class="transform hover:scale-105 transition-transform duration-300 ease-in-out">
+                                <div
+                                    class="bg-gradient-to-r from-red-500 via-yellow-600 to-orange-600 p-2 w-16 h-10 flex items-center justify-center rounded-md">
+                                    <a href="#" target="_blank" rel="noopener noreferrer">
+                                        <img src="https://img.icons8.com/fluency/48/paytm.png" alt="Paytm"
+                                            class="w-14 h-7">
+                                    </a>
+                                </div>
+                            </li>
+
+                            <!-- UPI -->
+                            <li class="transform hover:scale-105 transition-transform duration-300 ease-in-out">
+                                <div
+                                    class="bg-gradient-to-r from-green-500 via-green-600 to-green-800 p-2 w-16 h-10 flex items-center justify-center rounded-md">
+                                    <a href="#" target="_blank" rel="noopener noreferrer">
+                                        <img src="https://img.icons8.com/ios/50/bhim-upi.png" alt="UPI"
+                                            class="w-14 h-7">
+                                    </a>
+                                </div>
+                            </li>
+
+                        </ul>
+                    </div>
+
+                </div>
             </div>
         </div>
     </footer>
