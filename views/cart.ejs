@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 text-gray-800">
+    <div class="container mx-auto p-6">
+        <h1 class="text-3xl font-bold text-center mb-6">Your Shopping Cart</h1>
+        <div class="flex justify-between mb-4">
+            <a href="/" class="text-blue-500 hover:underline">Back to Books</a>
+            <a href="/clear-cart" class="text-red-500 hover:underline">Clear Cart</a>
+        </div>
+
+        <% if (cartItems.length > 0) { %>
+            <div class="space-y-6">
+                <% cartItems.forEach(item => { %>
+                    <div class="flex justify-between items-center bg-white p-4 rounded shadow-lg hover:shadow-xl">
+                        <div class="flex items-center space-x-4">
+                            <img src="<%= item.image %>" alt="<%= item.name %>" class="w-16 h-16 object-cover rounded-md">
+                            <div>
+                                <h3 class="font-semibold text-lg"><%= item.name %></h3>
+                                <p class="text-gray-600">₹<%= item.price %></p>
+                            </div>
+                        </div>
+                        <a href="/delete-item/<%= item.id %>" class="text-red-500 hover:underline">Remove</a>
+                    </div>
+                <% }) %>
+            </div>
+            <div class="mt-6 flex justify-between items-center">
+                <div>
+                    <h2 class="text-xl font-semibold">Total Items: <%= totalItems %></h2>
+                    <h2 class="text-xl font-semibold">Total Price: ₹<%= totalPrice.toFixed(2) %></h2>
+                </div>
+                <a href="/checkout" class="px-6 py-3 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700">Proceed to Checkout</a>
+            </div>
+        <% } else { %>
+            <p class="text-center text-gray-600">Your cart is empty.</p>
+        <% } %>
+    </div>
+</body>
+</html>

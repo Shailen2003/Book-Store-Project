@@ -18,7 +18,7 @@
     <header class="bg-blue-600 text-white p-4 fixed w-full top-0 z-50">
         <div class="container mx-auto flex justify-between items-center">
             <a href="#" class="text-xl font-bold">📚 Booket</a>
-                 <!-- Search Bar (Visible on large screens) -->
+            <!-- Search Bar (Visible on large screens) -->
             <input type="search" placeholder="Search Your's choice"
                 class="hidden lg:block p-2 w-96 outline-none rounded-lg text-zinc-900">
 
@@ -149,12 +149,24 @@
                     class="mt-2 bg-blue-600 text-white py-2 px-4 rounded w-full hover:bg-blue-700 hover:shadow-xl transition-all duration-300">
                     Buy Now
                 </button>
+
+                <!-- Add to Cart Form -->
+                <form action="/add-to-cart" method="POST" class="mt-2 w-full">
+                    <input type="hidden" name="name" value="Rich Dad Poor Dad">
+                    <input type="hidden" name="price" value="2999">
+                    <input type="hidden" name="image"
+                        value="https://www.richdad.com/MediaLibrary/RichDad/Images/3d-books/2020/front-covers/3d-front-RDPD.png">
+                    <button type="submit"
+                        class="bg-green-600 text-white py-2 px-4 rounded w-full hover:bg-green-700 hover:shadow-xl transition-all duration-300">
+                        Add to Cart
+                    </button>
+                </form>
             </div>
             <div
                 class="book-card bg-white p-4 rounded shadow-lg transition duration-300 hover:shadow-2xl hover:scale-105 flex flex-col items-center h-full relative overflow-hidden">
                 <!-- "New Book" Label -->
                 <span
-                    class="absolute top-3 left-3 bg-gradient-to-r from-red-500 to-orange-400 text-white px-3 py-1 z-10 text-sm font-bold rounded-md shadow-md transition-all duration-300 hover:scale-110 hover:from-red-600 hover:to-orange-500">
+                    class="absolute top-3 left-3 bg-gradient-to-r from-red-500 to-orange-400 text-white px-3 py-1 text-sm z-10 font-bold rounded-md shadow-md transition-all duration-300 hover:scale-110 hover:from-red-600 hover:to-orange-500">
                     Old Book
                 </span>
 
@@ -174,6 +186,18 @@
                     class="mt-2 bg-blue-600 text-white py-2 px-4 rounded w-full hover:bg-blue-700 hover:shadow-xl transition-all duration-300">
                     Buy Now
                 </button>
+
+                <!-- Add to Cart Form -->
+                <form action="/add-to-cart" method="POST" class="mt-2 w-full">
+                    <input type="hidden" name="name" value="Think & Grow Rich">
+                    <input type="hidden" name="price" value="599">
+                    <input type="hidden" name="image"
+                        value="https://www.roaringcreationsfilms.com/rcsfilms-media/think.png">
+                    <button type="submit"
+                        class="bg-green-600 text-white py-2 px-4 rounded w-full hover:bg-green-700 hover:shadow-xl transition-all duration-300">
+                        Add to Cart
+                    </button>
+                </form>
             </div>
             <div
                 class="book-card bg-white p-4 rounded shadow-lg transition duration-300 hover:shadow-2xl hover:scale-105 flex flex-col items-center h-full relative">
@@ -199,6 +223,18 @@
                     class="mt-2 bg-blue-600 text-white py-2 px-4 rounded w-full hover:bg-blue-700 hover:shadow-xl transition-all duration-300">
                     Buy Now
                 </button>
+
+                <!-- Add to Cart Form -->
+                <form action="/add-to-cart" method="POST" class="mt-2 w-full">
+                    <input type="hidden" name="name" value="Harry Potter">
+                    <input type="hidden" name="price" value="499">
+                    <input type="hidden" name="image"
+                        value="https://p7.hiclipart.com/preview/37/252/1019/harry-potter-and-the-chamber-of-secrets-harry-potter-and-the-philosopher-s-stone-book-hogwarts-harry-potter.jpg">
+                    <button type="submit"
+                        class="bg-green-600 text-white py-2 px-4 rounded w-full hover:bg-green-700 hover:shadow-xl transition-all duration-300">
+                        Add to Cart
+                    </button>
+                </form>
             </div>
         </div>
         <!-- Explore Books Button -->
@@ -209,7 +245,6 @@
             </button>
         </div>
     </section>
-
 
     <section id="services">
         <div class="bg-cover flex items-center justify-center flex-col">

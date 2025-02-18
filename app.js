@@ -9,18 +9,17 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 const path = require('path');
+const fs = require("fs");
+const cartFile = path.join(__dirname, "cart.json");
 const multer = require('multer');
 const upload = multer(); // Initialize multer to handle form data
 
-// const fs = require('fs');
-// const multer = require('multer');
 
 app.set('view engine', 'ejs');
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser());
-
 // Session setup
 app.use(session({
     secret: 'your-secret-key', // Change this to a more secure secret in production
@@ -239,7 +238,47 @@ app.get('/addbook', (req, res) => {
 app.get('/booksbrowse', (req, res) => {
     res.render('bookstore');
 });
+// Temporary in-memory cart storage
+let cart = [];
 
+// Route to add items to the cart
+app.post('/add-to-cart', (req, res) => {
+    const { name, price, image } = req.body;
+    
+    // Generate a unique ID for each cart item
+    const itemId = cart.length + 1;
+    
+    // Push the item to the cart array
+    cart.push({ id: itemId, name, price, image });
+    
+    // Redirect to cart page
+    res.redirect('/cart');
+});
+
+// Route to view the cart
+app.get('/cart', (req, res) => {
+    const totalItems = cart.length;
+    const totalPrice = cart.reduce((sum, item) => sum + parseFloat(item.price), 0);
+    
+    res.render('cart', {
+        cartItems: cart,
+        totalItems: totalItems,
+        totalPrice: totalPrice
+    });
+});
+
+// Route to remove an item from the cart
+app.get('/delete-item/:id', (req, res) => {
+    const itemId = parseInt(req.params.id);
+    cart = cart.filter(item => item.id !== itemId);
+    res.redirect('/cart');
+});
+
+// Route to clear the entire cart
+app.get('/clear-cart', (req, res) => {
+    cart = []; // Empty the cart
+    res.redirect('/cart');
+});
 
 const PORT = process.env.PORT || 3000;
 app.listen(3000, () => console.log(`Server running on http://localhost:${3000}`));

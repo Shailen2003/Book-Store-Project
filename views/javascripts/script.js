@@ -34,3 +34,29 @@ navLinks.forEach((link) => {
     }
   });
 });
+
+// cart ke liye 
+// document.addEventListener("DOMContentLoaded", () => {
+//   const cart = JSON.parse(localStorage.getItem("cart")) || [];
+  
+//   Add to Cart Event Listener
+//   document.querySelectorAll(".add-to-cart").forEach(button => {
+//       button.addEventListener("click", (event) => {
+//           const bookId = event.target.getAttribute("data-id");
+//           const title = event.target.getAttribute("data-title");
+//           const price = event.target.getAttribute("data-price");
+
+//           const book = { bookId, title, price };
+
+//           Check if item is already in cart
+//           const existing = cart.find(item => item.bookId === bookId);
+//           if (!existing) {
+//               cart.push(book);
+//               localStorage.setItem("cart", JSON.stringify(cart));
+//               alert(`${title} added to cart!`);
+//           } else {
+//               alert(`${title} is already in the cart.`);
+//           }
+//       });
+//   });
+// });
