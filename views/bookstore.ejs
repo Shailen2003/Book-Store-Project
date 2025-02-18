@@ -16,20 +16,21 @@
 </head>
 
 <body>
+ <!-- Navbar -->
     <header class="bg-blue-600 text-white p-4 fixed w-full top-0 z-50">
         <div class="container mx-auto flex justify-between items-center">
             <a href="#" class="text-xl font-bold">📚 Booket</a>
-            <!-- Search Bar (Visible on large screens) -->
+                 <!-- Search Bar (Visible on large screens) -->
             <input type="search" placeholder="Search Your's choice"
                 class="hidden lg:block p-2 w-96 outline-none rounded-lg text-zinc-900">
 
             <!-- Desktop Navigation -->
             <nav class="hidden md:flex space-x-4">
                 <a href="/" class="p-2 rounded-lg hover:bg-blue-800">Home</a>
-                <a href="./about.ejs" class="p-2 rounded-lg hover:bg-blue-800">About</a>
+                <a href="/about" class="p-2 rounded-lg hover:bg-blue-800">About</a>
                 <a href="#blog" class="p-2 rounded-lg hover:bg-blue-800">Blogs</a>
                 <a href="#contact" class="p-2 rounded-lg hover:bg-blue-800">Contact</a>
-                <a href="#" class="p-2 rounded-lg hover:bg-blue-800">List Book</a>
+                <a href="/addbook" class="p-2 rounded-lg hover:bg-blue-800">List Book</a>
                 <a href="/signup" class="bg-white text-blue-600 px-4 py-2 rounded-lg">My Account</a>
                 <a href="#" class="bg-white text-blue-600 px-4 py-2 rounded-lg">Cart</a>
             </nav>
@@ -45,15 +46,15 @@
             <a href="#about" class="p-2 hover:bg-blue-800">About</a>
             <a href="#blog" class="p-2 hover:bg-blue-800">Blogs</a>
             <a href="#contact" class="p-2 hover:bg-blue-800">Contact</a>
-            <a href="#" class="p-2 hover:bg-blue-800">List Book</a>
-            <a href="#" class="bg-white text-blue-600 px-4 py-2 rounded-lg">My Account</a>
+             <a href="/addbook" class="p-2 hover:bg-blue-800">List Book</a>
+            <a href="/signup" class="bg-white text-blue-600 px-4 py-2 rounded-lg">My Account</a>
             <a href="#" class="bg-white text-blue-600 px-4 py-2 rounded-lg">Cart</a>
         </div>
     </header>
-    <!-- <div id="carouselExample" class="carousel slide top-14">
+    <div id="carouselExample" class="carousel slide top-14">
         <div class="carousel-inner">
-            <div class="carousel-item active position-relative">
-                <img src="./images/banner-1.jpg" class="d-block w-100" alt="...">
+            <div class="carousel-item active position-relative mt-6">
+                <img src="/images/banner-1.jpg" class=" w-100" alt="...">
 
                 <div class="card shadow position-absolute top-50 start-50 translate-middle text-center bg-white p-3"
                     style="max-width: 400px; max-height: 200px; opacity: 0.9; border-radius: 10px;">
@@ -68,7 +69,7 @@
             </div>
 
             <div class="carousel-item position-relative">
-                <img src="./images/banner-2.jpg" class="d-block w-100" alt="...">
+                <img src="https://www.clankart.com/static-assets/banner-2.jpg" class="d-block w-100" alt="...">
 
                 <div class="card shadow position-absolute top-50 start-48 translate-middle text-center bg-white p-3"
                     style="max-width: 400px; opacity: 0.9; border-radius: 10px;">
@@ -81,7 +82,7 @@
                 </div>
             </div>
             <div class="carousel-item position-relative">
-                <img src="./images/banner-3.jpg" class="d-block w-100" alt="...">
+                <img src="https://www.clankart.com/static-assets/banner-3.jpg" class="d-block w-100" alt="...">
 
                 <div class="card shadow position-absolute top-50 start-48 translate-middle text-center bg-white p-3"
                     style="max-width: 400px; opacity: 0.9; border-radius: 10px;">
@@ -103,8 +104,7 @@
         <span class="carousel-control-next-icon" aria-hidden="true"></span>
         <span class="visually-hidden">Next</span>
     </button>
-    </div> -->
-
+    </div>
     <!-- Book Section -->
     <section class="container mx-auto mt-20 px-4 bookbrowse">
         <h2 id="category-heading"
