@@ -8,21 +8,40 @@
 </head>
 <body class="bg-gray-100 flex items-center justify-center min-h-screen">
     <!-- Navbar -->
-    <nav class="bg-blue-600 p-4 text-white fixed w-full top-0 navbar">
-        <div class="container mx-auto flex justify-between">
+    <header class="bg-blue-600 text-white p-4 fixed w-full top-0 z-50">
+        <div class="container mx-auto flex justify-between items-center">
             <a href="#" class="text-xl font-bold">📚 Booket</a>
-            <input class="p-1 w-96 outline-none rounded-lg text-zinc-900" type="search" placeholder=" Search Your's choice">
-            <div>
-                <a href="/" class="mr-4 p-1 rounded-lg hover:bg-blue-800 ...">Home</a>
-                <a href="#about" class="mr-4 p-1 rounded-lg hover:bg-blue-800 ...">About</a>
-                <a href="#blog" class="mr-4 p-1 rounded-lg hover:bg-blue-800 ...">Blogs</a>
-                <a href="#contact" class="mr-4 p-1 rounded-lg hover:bg-blue-800 ...">Contact</a>
-                <a href="#" class="mr-4 p-1 rounded-lg hover:bg-blue-800 ...">List Book</a>
-                <a href="/" class="bg-white text-blue-600 px-4 py-2 rounded-lg">My Account</a>
+                 <!-- Search Bar (Visible on large screens) -->
+            <input type="search" placeholder="Search Your's choice"
+                class="hidden lg:block p-2 w-96 outline-none rounded-lg text-zinc-900">
+
+            <!-- Desktop Navigation -->
+            <nav class="hidden md:flex space-x-4">
+                <a href="/" class="p-2 rounded-lg hover:bg-blue-800">Home</a>
+                <a href="/about" class="p-2 rounded-lg hover:bg-blue-800">About</a>
+                <a href="#blog" class="p-2 rounded-lg hover:bg-blue-800">Blogs</a>
+                <a href="#contact" class="p-2 rounded-lg hover:bg-blue-800">Contact</a>
+                <a href="#" class="p-2 rounded-lg hover:bg-blue-800">List Book</a>
+                <a href="/signup" class="bg-white text-blue-600 px-4 py-2 rounded-lg">My Account</a>
                 <a href="#" class="bg-white text-blue-600 px-4 py-2 rounded-lg">Cart</a>
-            </div>
+            </nav>
+
+            <!-- Hamburger Menu (Mobile) -->
+            <div id="menu-icon" class="md:hidden text-2xl cursor-pointer">☰</div>
         </div>
-    </nav>
+
+        <!-- Mobile Navigation Menu (Hidden by Default) -->
+        <div id="mobile-menu"
+            class="fixed top-0 right-0 w-64 h-full bg-blue-700 text-white flex flex-col items-center space-y-4 pt-20 transition-transform duration-300 transform translate-x-full">
+            <a href="/" class="p-2 hover:bg-blue-800">Home</a>
+            <a href="/about" class="p-2 hover:bg-blue-800">About</a>
+            <a href="#blog" class="p-2 hover:bg-blue-800">Blogs</a>
+            <a href="#contact" class="p-2 hover:bg-blue-800">Contact</a>
+            <a href="#" class="p-2 hover:bg-blue-800">List Book</a>
+            <a href="/signup" class="bg-white text-blue-600 px-4 py-2 rounded-lg">My Account</a>
+            <a href="#" class="bg-white text-blue-600 px-4 py-2 rounded-lg">Cart</a>
+        </div>
+    </header>
     <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-lg mt-32">
         <h2 class="text-2xl font-bold text-center mb-6">Add Your Book</h2>
         <form action="/addbook" method="POST" enctype="multipart/form-data" class="space-y-4">
@@ -39,12 +58,6 @@
                     <label><input type="radio" name="bookPurpose" value="both"> Both</label>
                 </div>
             </div>
-        
-            <div>
-                <label class="block text-gray-700 font-medium">ISBN</label>
-                <input type="text" name="isbn" class="w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-300" placeholder="Enter 13-digit ISBN number">
-            </div>
-        
             <div>
                 <label class="block text-gray-700 font-medium">Book Type</label>
                 <select name="bookType" class="w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-300" required>
@@ -61,12 +74,6 @@
                     <label><input type="radio" name="bookCondition" value="good"> Good</label>
                     <label><input type="radio" name="bookCondition" value="fair"> Fair</label>
                 </div>
-            </div>
-        
-            <div>
-                <label class="block text-gray-700 font-medium">Upload Photos</label>
-                <input type="file" name="photos" multiple class="w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-300">
-                <p class="text-sm text-gray-600 mt-2">Upload up to 4 images (Max size: 15MB each).</p>
             </div>
         
             <div>
@@ -87,14 +94,6 @@
                     <label class="flex items-center">
                         <input type="checkbox" name="freeShipping"> Free Shipping
                     </label>
-                </div>
-            </div>
-        
-            <div>
-                <label class="block text-gray-700 font-medium">Preferred Payment Mode</label>
-                <div class="flex items-center space-x-4">
-                    <label><input type="radio" name="paymentMode" value="upi" required> UPI Number</label>
-                    <label><input type="radio" name="paymentMode" value="bank"> Bank Account</label>
                 </div>
             </div>
         

@@ -1,61 +1,123 @@
 const express = require('express');
 const app = express();
+const session = require('express-session');
+const mongoose = require('mongoose');
 const userModel = require('./models/user');
 const postModel = require('./models/postbook');
 const cookieParser = require('cookie-parser');
-const bycrypt = require('bcrypt');
+const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 const path = require('path');
+const multer = require('multer');
+const upload = multer(); // Initialize multer to handle form data
 
 // const fs = require('fs');
 // const multer = require('multer');
 
 app.set('view engine', 'ejs');
 app.use(express.json());
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser());
+
+// Session setup
+app.use(session({
+    secret: 'your-secret-key', // Change this to a more secure secret in production
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+        httpOnly: true, // Secure cookies in production
+        maxAge: 24 * 60 * 60 * 1000, // 1 day
+    },
+}));
+app.use((req, res, next) => {
+    // If the user is logged in, make their profile available in all views
+    if (req.session.user) {
+        res.locals.user = req.session.user;
+    }
+    next();
+});
 
 app.get('/', (req, res) => {
     res.render('index'); // Render the index.ejs file
 });
 
-app.get('/account', isLoggedIn, async (req , res)=>{
-    let user = await userModel.findOne({email:req.user.email}).populate('posts');
-    // console.log(user);
-    res.render('account', {user});
-})
+app.get('/account', isLoggedIn, async (req, res) => {
+    try {
+        // Fetch user along with their book posts
+        let user = await userModel.findOne({ email: req.user.email }).lean();
 
-app.get('/signup',(req,res)=>{
+        if (!user) {
+            console.log("User not found. Redirecting to login.");
+            return res.redirect('/login'); // Redirect if user not found
+        }
+
+        // Fetch the user's book posts separately
+        const posts = await postModel.find({ seller: user._id }).lean();
+
+        // Pass user data along with posts
+        res.render('account', { user: { ...user, posts } });
+
+    } catch (error) {
+        console.error("Error fetching user:", error.message);
+        res.status(500).send("Server Error"); // Handle unexpected errors
+    }
+});
+
+
+app.get('/signup', (req, res) => {
     res.render('signup');
 });
-app.get('/login', (req , res)=>{
+app.get('/login', (req, res) => {
     res.render('login');
-})
+});
+app.post('/addbook', upload.none(), async (req, res) => {
+    console.log("Received Data:", req.body);
+    const {
+        seller, // Should be user ID from session/auth
+        title,
+        bookPurpose,
+        bookType,
+        bookCondition,
+        quantity,
+        price,
+        shippingCharges,
+        sellerName,
+        sellerEmail,
+        sellerAddress,
+        sellerPhone
+    } = req.body;
 
-app.post('/addbook', async (req, res) => {
+    // If using authentication, get the actual seller ID
+    const userId = req.user ? req.user._id : new mongoose.Types.ObjectId(); // Generate valid ObjectId if missing
+
+    // Check required fields
+    if (!title || !bookPurpose || !bookType || !quantity || !price || !sellerName || !sellerEmail || !sellerAddress || !sellerPhone) {
+        return res.status(400).json({ error: "All required fields must be provided." });
+    }
+
     try {
-        console.log("Received data:", req.body);  // Debugging log
-
-        const {
-            seller,
+        // Structure the data correctly
+        const newBook = new postModel({
+            seller: userId, // Now a valid ObjectId
             title,
             bookPurpose,
             bookType,
-            bookCondition,
-            quantity,
-            price,
-            paymentMode,
-            sellerDetails
-        } = req.body;
+            bookCondition: bookType === 'used' ? bookCondition : undefined, // Only include if 'used'
+            quantity: Number(quantity),
+            price: Number(price),
+            shippingCharges: Number(shippingCharges) || 0,
+            sellerDetails: {
+                name: sellerName,
+                email: sellerEmail,
+                address: sellerAddress,
+                phone: sellerPhone
+            }
+        });
 
-        // Check for missing required fields
-        if (!seller || !title || !bookPurpose || !bookType || !quantity || !price || !paymentMode || !sellerDetails) {
-            return res.status(400).json({ error: "All required fields must be provided." });
-        }
+        console.log("Formatted Book Data:", newBook);
 
-        const newBook = new Postbook(req.body);
         await newBook.save();
         res.status(201).json(newBook);
     } catch (error) {
@@ -64,80 +126,120 @@ app.post('/addbook', async (req, res) => {
     }
 });
 
+app.post('/signup', async (req, res) => {
+    const { name, phone, email, password, pincode } = req.body;
 
-
-app.post('/signup', async (req , res)=>{
-    let{ name,phone,email, password,pincode} = req.body;
-    let user = await userModel.findOne({email});
-    if(user){
-        return res.status(500).send('User already exists');
-    }
-    bycrypt.genSalt(10, (err, salt)=>{
-        bycrypt.hash(password, salt, async (err, hash)=>{
-            if(err){
-                return res.status(500).send('Error in hashing');
-            }
-            let user = await userModel.create({
-                name,
-                phone,
-                email,
-                password: hash,
-                pincode
-            });
-            
-            let token=jwt.sign({email:email,userid:user._id},"shailen");
-            res.cookie('jwt', token);
-            res.send('User registered');
-        })
-    })
-})
-
-app.post('/login', async (req , res)=>{
-    let{email, password} = req.body;
-    let user = await userModel.findOne({email});
-    if(!user){
-        return res.status(500).send('Somthing went wrong');
-    }
-    bycrypt.compare(password, user.password, (err, result)=>{
-        if(result){
-            let token=jwt.sign({email:email,userid:user._id},"shailen");
-            res.cookie('token', token);
-            res.status(200).redirect('/account');
-        }else{
-           res.send("Somthing went wrong")
+    try {
+        // Check if user already exists
+        let existingUser = await userModel.findOne({ email });
+        if (existingUser) {
+            return res.status(400).send('User already exists');
         }
-    })
 
+        // Generate salt and hash password
+        bcrypt.genSalt(10, (saltErr, salt) => {
+            if (saltErr) {
+                return res.status(500).send('Error in generating salt');
+            }
+
+            bcrypt.hash(password, salt, async (hashErr, hash) => {
+                if (hashErr) {
+                    return res.status(500).send('Error in hashing password');
+                }
+
+                // Create new user with hashed password
+                let newUser = await userModel.create({
+                    name,
+                    phone,
+                    email,
+                    password: hash,
+                    pincode
+                });
+
+                // Generate JWT token
+                const token = jwt.sign({ email: email, userId: newUser._id }, 'shailen', { expiresIn: '1h' });
+
+                // Send token as a cookie
+                res.cookie('jwt', token, { httpOnly: true, secure: false }); // set secure: true in production with https
+                res.send('User registered successfully');
+            });
+        });
+    } catch (error) {
+        console.error("Error in user registration:", error.message);
+        res.status(500).send('Server error');
+    }
 });
+
+app.post('/login', async (req, res) => {
+    const { email, password } = req.body;
+
+    try {
+        // Find the user in the database
+        const user = await userModel.findOne({ email });
+
+        if (!user) {
+            return res.status(400).send('User not found');
+        }
+
+        // Compare the password
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) {
+            return res.status(400).send('Invalid credentials');
+        }
+
+        // Store user data in session
+        req.session.user = {
+            id: user._id,
+            name: user.name,
+            email: user.email,
+            phone: user.phone,
+            pincode: user.pincode
+        };
+
+        // Redirect to the account page or homepage
+        res.redirect('/account');
+    } catch (error) {
+        console.error('Error during login:', error);
+        res.status(500).send('Server Error');
+    }
+});
+
 app.get('/logout', (req , res)=>{
-   res.cookie("token","");
-   res.redirect('/login');
+    res.cookie("token","");
+    res.redirect('/login');
+ })
+
+app.get('/about', (req, res) => {
+    res.render('about');
 })
-
 function isLoggedIn(req, res, next) {
-const token = req.cookies.token; // Ensure correct cookie name
+    try {
+        const token = req.cookies.token; // Ensure correct cookie name
 
-if (!token) { 
-    return res.redirect('/login'); // Redirect if token is missing
+        if (!token) {
+            console.log("No token found. Redirecting to login.");
+            return res.redirect('/login'); // Redirect if token is missing
+        }
+
+        let data = jwt.verify(token, process.env.JWT_SECRET || "shailen");
+        req.user = data;
+
+        next();
+    } catch (err) {
+        console.error("JWT Verification Error:", err.message);
+        return res.redirect('/login'); // Redirect if JWT is invalid
+    }
 }
 
-try {
-    let data = jwt.verify(token, "shailen"); 
-    req.user = data;
-    next();
-} catch (err) {
-    console.error("JWT Verification Error:", err.message);
-    return res.redirect('/login'); // Redirect if JWT is invalid
-}
-}
 
 
-app.get('/addbook',(req,res)=>{
+app.get('/addbook', (req, res) => {
     res.render('addbook');
 });
-app.get('/booksbrowse',(req,res)=>{
+app.get('/booksbrowse', (req, res) => {
     res.render('bookstore');
 });
+
 
 const PORT = process.env.PORT || 3000;
 app.listen(3000, () => console.log(`Server running on http://localhost:${3000}`));

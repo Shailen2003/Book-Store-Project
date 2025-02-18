@@ -2,11 +2,20 @@
 html {
   scroll-behavior: smooth;
 }
-.navbar{
-  z-index: 3;
+body {
+  padding-top: 60px; /* Adjust based on navbar height */
 }
+
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000; /* Ensure it's above other elements */
+}
+
 #home{
-  background-image:url(../images/big-image-books.webp) ;
+  
   height: 400px;
 }
 .hover-scale:hover {

@@ -17,26 +17,46 @@
 
 <body>
     <!-- Navbar -->
-    <nav class="bg-blue-600 p-4 text-white fixed w-full top-0 navbar">
-        <div class="container mx-auto flex justify-between">
+    <header class="bg-blue-600 text-white p-4 fixed w-full top-0 z-50">
+        <div class="container mx-auto flex justify-between items-center">
             <a href="#" class="text-xl font-bold">📚 Booket</a>
-            <input class="p-1 w-96 outline-none rounded-lg text-zinc-900" type="search"
-                placeholder=" Search Your's choice">
-            <div>
-                <a href="/" class="mr-4 p-1 rounded-lg hover:bg-blue-800 ...">Home</a>
-                <a href="#about" class="mr-4 p-1 rounded-lg hover:bg-blue-800 ...">About</a>
-                <a href="#blog" class="mr-4 p-1 rounded-lg hover:bg-blue-800 ...">Blogs</a>
-                <a href="#contact" class="mr-4 p-1 rounded-lg hover:bg-blue-800 ...">Contact</a>
-                <a href="#" class="mr-4 p-1 rounded-lg hover:bg-blue-800 ...">List Book</a>
-                <a href="#" class="bg-white text-blue-600 px-4 py-2 rounded-lg">My Account</a>
+                 <!-- Search Bar (Visible on large screens) -->
+            <input type="search" placeholder="Search Your's choice"
+                class="hidden lg:block p-2 w-96 outline-none rounded-lg text-zinc-900">
+
+            <!-- Desktop Navigation -->
+            <nav class="hidden md:flex space-x-4">
+                <a href="/" class="p-2 rounded-lg hover:bg-blue-800">Home</a>
+                <a href="/about" class="p-2 rounded-lg hover:bg-blue-800">About</a>
+                <a href="#blog" class="p-2 rounded-lg hover:bg-blue-800">Blogs</a>
+                <a href="#contact" class="p-2 rounded-lg hover:bg-blue-800">Contact</a>
+                <a href="/addbook" class="p-2 rounded-lg hover:bg-blue-800">List Book</a>
+                <a href="/signup" class="bg-white text-blue-600 px-4 py-2 rounded-lg">My Account</a>
                 <a href="#" class="bg-white text-blue-600 px-4 py-2 rounded-lg">Cart</a>
-            </div>
+            </nav>
+
+            <!-- Hamburger Menu (Mobile) -->
+            <div id="menu-icon" class="md:hidden text-2xl cursor-pointer">☰</div>
         </div>
-    </nav>
+
+        <!-- Mobile Navigation Menu (Hidden by Default) -->
+        <div id="mobile-menu"
+            class="fixed top-0 right-0 w-64 h-full bg-blue-700 text-white flex flex-col items-center space-y-4 pt-20 transition-transform duration-300 transform translate-x-full">
+            <a href="/" class="p-2 hover:bg-blue-800">Home</a>
+            <a href="#about" class="p-2 hover:bg-blue-800">About</a>
+            <a href="#blog" class="p-2 hover:bg-blue-800">Blogs</a>
+            <a href="#contact" class="p-2 hover:bg-blue-800">Contact</a>
+            <a href="/addbook" class="p-2 hover:bg-blue-800">List Book</a>
+            <a href="/signup" class="bg-white text-blue-600 px-4 py-2 rounded-lg">My Account</a>
+            <a href="#" class="bg-white text-blue-600 px-4 py-2 rounded-lg">Cart</a>
+        </div>
+    </header>
+
+
     <div id="carouselExample" class="carousel slide top-14">
         <div class="carousel-inner">
-            <div class="carousel-item active position-relative">
-                <img src="./images/banner-1.jpg" class="d-block w-100" alt="...">
+            <div class="carousel-item active position-relative mt-6">
+                <img src="/images/banner-1.jpg" class=" w-100" alt="...">
 
                 <div class="card shadow position-absolute top-50 start-50 translate-middle text-center bg-white p-3"
                     style="max-width: 400px; max-height: 200px; opacity: 0.9; border-radius: 10px;">
@@ -51,7 +71,7 @@
             </div>
 
             <div class="carousel-item position-relative">
-                <img src="./images/banner-2.jpg" class="d-block w-100" alt="...">
+                <img src="https://www.clankart.com/static-assets/banner-2.jpg" class="d-block w-100" alt="...">
 
                 <div class="card shadow position-absolute top-50 start-48 translate-middle text-center bg-white p-3"
                     style="max-width: 400px; opacity: 0.9; border-radius: 10px;">
@@ -64,7 +84,7 @@
                 </div>
             </div>
             <div class="carousel-item position-relative">
-                <img src="./images/banner-3.jpg" class="d-block w-100" alt="...">
+                <img src="https://www.clankart.com/static-assets/banner-3.jpg" class="d-block w-100" alt="...">
 
                 <div class="card shadow position-absolute top-50 start-48 translate-middle text-center bg-white p-3"
                     style="max-width: 400px; opacity: 0.9; border-radius: 10px;">

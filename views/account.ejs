@@ -1,32 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Booket</title>
-        <script src="https://cdn.tailwindcss.com"></script>
-        <script src="javascripts/script.js"></script>
-        <link rel="stylesheet" href="stylesheets/style.css">
-        <script src="https://kit.fontawesome.com/YOUR_KIT_CODE.js" crossorigin="anonymous"></script>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    </head>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booket</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="javascripts/script.js"></script>
+    <link rel="stylesheet" href="stylesheets/style.css">
+    <script src="https://kit.fontawesome.com/YOUR_KIT_CODE.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+
 <body class="bg-gray-100">
-    <nav class="bg-blue-600 p-4 text-white fixed w-full top-0 navbar">
-        <div class="container mx-auto flex justify-between">
+    <header class="bg-blue-600 text-white p-4 fixed w-full top-0 z-50">
+        <div class="container mx-auto flex justify-between items-center">
             <a href="#" class="text-xl font-bold">📚 Booket</a>
-            <input class="p-1 w-96 outline-none rounded-lg text-zinc-900" type="search" placeholder=" Search Your's choice">
-            <div>
-                <a href="/" class="mr-4 p-1 rounded-lg hover:bg-blue-800 ...">Home</a>
-                <a href="#about" class="mr-4 p-1 rounded-lg hover:bg-blue-800 ...">About</a>
-                <a href="#blog" class="mr-4 p-1 rounded-lg hover:bg-blue-800 ...">Blogs</a>
-                <a href="#contact" class="mr-4 p-1 rounded-lg hover:bg-blue-800 ...">Contact</a>
-                <a href="#" class="mr-4 p-1 rounded-lg hover:bg-blue-800 ...">List Book</a>
-                <a href="#" class="bg-white text-blue-600 px-4 py-2 rounded-lg">My Account</a>
+            <!-- Search Bar (Visible on large screens) -->
+            <input type="search" placeholder="Search Your's choice"
+                class="hidden lg:block p-2 w-96 outline-none rounded-lg text-zinc-900">
+
+            <!-- Desktop Navigation -->
+            <nav class="hidden md:flex space-x-4">
+                <a href="/" class="p-2 rounded-lg hover:bg-blue-800">Home</a>
+                <a href="/about" class="p-2 rounded-lg hover:bg-blue-800">About</a>
+                <a href="#blog" class="p-2 rounded-lg hover:bg-blue-800">Blogs</a>
+                <a href="#contact" class="p-2 rounded-lg hover:bg-blue-800">Contact</a>
+                <a href="/addbook" class="p-2 rounded-lg hover:bg-blue-800">List Book</a>
+                <a href="/signup" class="bg-white text-blue-600 px-4 py-2 rounded-lg">My Account</a>
                 <a href="#" class="bg-white text-blue-600 px-4 py-2 rounded-lg">Cart</a>
-            </div>
+            </nav>
+
+            <!-- Hamburger Menu (Mobile) -->
+            <div id="menu-icon" class="md:hidden text-2xl cursor-pointer">☰</div>
         </div>
-    </nav>
+
+        <!-- Mobile Navigation Menu (Hidden by Default) -->
+        <div id="mobile-menu"
+            class="fixed top-0 right-0 w-64 h-full bg-blue-700 text-white flex flex-col items-center space-y-4 pt-20 transition-transform duration-300 transform translate-x-full">
+            <a href="/" class="p-2 hover:bg-blue-800">Home</a>
+            <a href="#about" class="p-2 hover:bg-blue-800">About</a>
+            <a href="#blog" class="p-2 hover:bg-blue-800">Blogs</a>
+            <a href="#contact" class="p-2 hover:bg-blue-800">Contact</a>
+            <a href="/addbook" class="p-2 hover:bg-blue-800">List Book</a>
+            <a href="#" class="bg-white text-blue-600 px-4 py-2 rounded-lg">My Account</a>
+            <a href="#" class="bg-white text-blue-600 px-4 py-2 rounded-lg">Cart</a>
+        </div>
+    </header>
     <div class="max-w-6xl mx-auto p-6 mt-32">
+        <!-- Profile Section -->
         <!-- Profile Section -->
         <div class="bg-white shadow-lg rounded-lg p-6 mb-6">
             <h2 class="text-2xl font-semibold mb-4">My Profile</h2>
@@ -53,29 +75,44 @@
                 <a href="/logout" class="text-red-500 rounded-md px-3 py-2 text-sm inline-block">Logout</a>
             </div>
         </div>
-        
-        <!-- Ads Section -->
+
+
+        <!-- My Book Posts Section -->
         <div class="bg-white shadow-lg rounded-lg p-6">
             <h2 class="text-2xl font-semibold mb-4">My Book Posts</h2>
-            <% user.posts.forEach(post => { %>
-                <div class="border rounded-lg p-4 flex items-center justify-between mb-4">
-                    <div>
-                        <h3 class="text-lg font-medium"><%= post.title %></h3>
-                        <p class="text-sm text-gray-600">Posted: <%= post.date.toLocaleString() %></p>
-                        <p class="text-sm text-gray-600">Quantity Available: <%= post.quantity %></p>
-                        <p class="text-sm text-green-600">Price: ₹<%= post.price %></p>
+            <% if (user.posts && user.posts.length> 0) { %>
+                <% user.posts.forEach(post=> { %>
+                    <div class="border rounded-lg p-4 flex items-center justify-between mb-4">
+                        <div>
+                            <h3 class="text-lg font-medium">
+                                <%= post.title %>
+                            </h3>
+                            <p class="text-sm text-gray-600">Purpose: <%= post.bookPurpose %>
+                            </p>
+                            <p class="text-sm text-gray-600">Condition: <%= post.bookCondition || 'N/A' %>
+                            </p>
+                            <p class="text-sm text-gray-600">Quantity Available: <%= post.quantity %>
+                            </p>
+                            <p class="text-sm text-green-600">Price: ₹<%= post.price %>
+                            </p>
+                        </div>
+                        <div class="flex space-x-2">
+                            <a href="/bookpost/<%= post._id %>"
+                                class="bg-blue-500 text-white px-3 py-1 rounded">View</a>
+                            <a href="/bookpost/edit/<%= post._id %>"
+                                class="bg-green-500 text-white px-3 py-1 rounded">Edit</a>
+                            <form action="/bookpost/delete/<%= post._id %>" method="POST" class="inline">
+                                <button type="submit" class="bg-red-500 text-white px-3 py-1 rounded">Delete</button>
+                            </form>
+                        </div>
                     </div>
-                    <div class="flex space-x-2">
-                        <a href="/bookpost/<%= post._id %>" class="bg-blue-500 text-white px-3 py-1 rounded">View</a>
-                        <a href="/bookpost/edit/<%= post._id %>" class="bg-green-500 text-white px-3 py-1 rounded">Edit</a>
-                        <form action="/bookpost/delete/<%= post._id %>" method="POST" class="inline">
-                            <button type="submit" class="bg-red-500 text-white px-3 py-1 rounded">Delete</button>
-                        </form>
-                    </div>
-                </div>
-            <% }); %>
+                    <% }); %>
+                        <% } else { %>
+                            <p class="text-gray-500">No books posted yet.</p>
+                            <% } %>
         </div>
-        
     </div>
+
 </body>
+
 </html>
