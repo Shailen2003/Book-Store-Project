@@ -159,7 +159,7 @@ app.post('/signup', async (req, res) => {
                 const token = jwt.sign({ email: email, userId: newUser._id }, 'shailen', { expiresIn: '1h' });
 
                 // Send token as a cookie
-                res.cookie('jwt', token, { httpOnly: true, secure: false }); // set secure: true in production with https
+                res.cookie('token', token, { httpOnly: true, secure: false }); // set secure: true in production with https
                 res.send('User registered successfully');
             });
         });
@@ -186,6 +186,12 @@ app.post('/login', async (req, res) => {
             return res.status(400).send('Invalid credentials');
         }
 
+        // Generate JWT token
+        const token = jwt.sign({ email: user.email, userId: user._id }, 'shailen', { expiresIn: '1h' });
+
+        // Set correct cookie name (was 'jwt' before, now 'token')
+        res.cookie('token', token, { httpOnly: true, secure: false });
+
         // Store user data in session
         req.session.user = {
             id: user._id,
@@ -195,7 +201,7 @@ app.post('/login', async (req, res) => {
             pincode: user.pincode
         };
 
-        // Redirect to the account page or homepage
+        // Redirect to the account page
         res.redirect('/account');
     } catch (error) {
         console.error('Error during login:', error);
@@ -203,10 +209,13 @@ app.post('/login', async (req, res) => {
     }
 });
 
-app.get('/logout', (req , res)=>{
-    res.cookie("token","");
+
+app.get('/logout', (req, res) => {
+    res.cookie("token", "", { expires: new Date(0) }); // Properly clear the cookie
+    req.session.destroy(); // Destroy session
     res.redirect('/login');
- })
+});
+
 
 app.get('/about', (req, res) => {
     res.render('about');
@@ -222,13 +231,14 @@ function isLoggedIn(req, res, next) {
 
         let data = jwt.verify(token, process.env.JWT_SECRET || "shailen");
         req.user = data;
-
+        
         next();
     } catch (err) {
         console.error("JWT Verification Error:", err.message);
         return res.redirect('/login'); // Redirect if JWT is invalid
     }
 }
+
 
 
 

@@ -1,7 +1,7 @@
 const { name } = require('ejs');
 const mongoose = require('mongoose');
 
-mongoose.connect("mongodb://127.0.0.1:27017/bookexchange");
+mongoose.connect("mongodb+srv://red55555boy:hG6hxumIGazZKuyr@booket-db.b41cx.mongodb.net/?retryWrites=true&w=majority&appName=booket-db");
 
 const userSchema = new mongoose.Schema({
     name: String,
