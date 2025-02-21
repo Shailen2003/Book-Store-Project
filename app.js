@@ -44,25 +44,25 @@ app.get('/', (req, res) => {
 
 app.get('/account', isLoggedIn, async (req, res) => {
     try {
-        // Fetch user along with their book posts
-        let user = await userModel.findOne({ email: req.user.email }).lean();
+        let user = await userModel.findOne({ email: req.user.email })
+            .populate('posts')  // ✅ Ensure books are fetched
+            .lean();
 
         if (!user) {
             console.log("User not found. Redirecting to login.");
-            return res.redirect('/login'); // Redirect if user not found
+            return res.redirect('/login'); 
         }
 
-        // Fetch the user's book posts separately
-        const posts = await postModel.find({ seller: user._id }).lean();
-
-        // Pass user data along with posts
-        res.render('account', { user: { ...user, posts } });
+        console.log("User Data:", user); // ✅ Debugging
+        res.render('account', { user });
 
     } catch (error) {
         console.error("Error fetching user:", error.message);
-        res.status(500).send("Server Error"); // Handle unexpected errors
+        res.status(500).send("Server Error");
     }
 });
+
+
 
 
 app.get('/signup', (req, res) => {
@@ -71,59 +71,51 @@ app.get('/signup', (req, res) => {
 app.get('/login', (req, res) => {
     res.render('login');
 });
-app.post('/addbook', upload.none(), async (req, res) => {
-    console.log("Received Data:", req.body);
+app.post('/addbook', isLoggedIn, upload.none(), async (req, res) => {
+    // console.log("Session User:", req.session.user);
+    // console.log("Request User:", req.user);
+
     const {
-        seller, // Should be user ID from session/auth
-        title,
-        bookPurpose,
-        bookType,
-        bookCondition,
-        quantity,
-        price,
-        shippingCharges,
-        sellerName,
-        sellerEmail,
-        sellerAddress,
-        sellerPhone
+        title, bookPurpose, bookType, bookCondition,
+        quantity, price, shippingCharges,
+        sellerName, sellerEmail, sellerAddress, sellerPhone
     } = req.body;
 
-    // If using authentication, get the actual seller ID
-    const userId = req.user ? req.user._id : new mongoose.Types.ObjectId(); // Generate valid ObjectId if missing
+    const userId = req.user ? req.user.userId : null; // Ensure user is logged in
 
-    // Check required fields
-    if (!title || !bookPurpose || !bookType || !quantity || !price || !sellerName || !sellerEmail || !sellerAddress || !sellerPhone) {
-        return res.status(400).json({ error: "All required fields must be provided." });
+    if (!userId) {
+        return res.status(401).json({ error: "User not authenticated" });
     }
 
     try {
-        // Structure the data correctly
+        // Create new book post
         const newBook = new postModel({
-            seller: userId, // Now a valid ObjectId
-            title,
-            bookPurpose,
-            bookType,
-            bookCondition: bookType === 'used' ? bookCondition : undefined, // Only include if 'used'
+            seller: userId,  // ✅ Make sure seller ID is correct
+            title, bookPurpose, bookType,
+            bookCondition: bookType === 'used' ? bookCondition : undefined,
             quantity: Number(quantity),
             price: Number(price),
             shippingCharges: Number(shippingCharges) || 0,
-            sellerDetails: {
-                name: sellerName,
-                email: sellerEmail,
-                address: sellerAddress,
-                phone: sellerPhone
-            }
+            sellerDetails: { name: sellerName, email: sellerEmail, address: sellerAddress, phone: sellerPhone }
         });
 
-        console.log("Formatted Book Data:", newBook);
-
         await newBook.save();
-        res.status(201).json(newBook);
+
+        // Associate book with user
+        await userModel.findByIdAndUpdate(userId, { $push: { posts: newBook._id } });
+
+        // console.log("Book added successfully:", newBook);
+
+        res.redirect('/account'); // Redirect to account page
+
     } catch (error) {
         console.error("Error saving book:", error);
         res.status(500).json({ error: error.message });
     }
 });
+
+
+
 
 app.post('/signup', async (req, res) => {
     const { name, phone, email, password, pincode } = req.body;
@@ -154,7 +146,6 @@ app.post('/signup', async (req, res) => {
                     password: hash,
                     pincode
                 });
-
                 // Generate JWT token
                 const token = jwt.sign({ email: email, userId: newUser._id }, 'shailen', { expiresIn: '1h' });
 
@@ -173,26 +164,24 @@ app.post('/login', async (req, res) => {
     const { email, password } = req.body;
 
     try {
-        // Find the user in the database
         const user = await userModel.findOne({ email });
 
         if (!user) {
             return res.status(400).send('User not found');
         }
 
-        // Compare the password
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
             return res.status(400).send('Invalid credentials');
         }
 
-        // Generate JWT token
+        // JWT Token Generate
         const token = jwt.sign({ email: user.email, userId: user._id }, 'shailen', { expiresIn: '1h' });
 
-        // Set correct cookie name (was 'jwt' before, now 'token')
+        // Cookie में Token Set करें
         res.cookie('token', token, { httpOnly: true, secure: false });
 
-        // Store user data in session
+        // ✅ **Session में User की Information Set करें**
         req.session.user = {
             id: user._id,
             name: user.name,
@@ -201,13 +190,15 @@ app.post('/login', async (req, res) => {
             pincode: user.pincode
         };
 
-        // Redirect to the account page
+        console.log("Session User Set:", req.session.user);
+
         res.redirect('/account');
     } catch (error) {
         console.error('Error during login:', error);
         res.status(500).send('Server Error');
     }
 });
+
 
 
 app.get('/logout', (req, res) => {
@@ -229,9 +220,10 @@ function isLoggedIn(req, res, next) {
             return res.redirect('/login'); // Redirect if token is missing
         }
 
-        let data = jwt.verify(token, process.env.JWT_SECRET || "shailen");
+        let data = jwt.verify(token, "shailen");
+        // console.log("JWT Verified Data:", data);
         req.user = data;
-        
+        req.session.user = req.session.user || { id: data.userId, email: data.email };  // Ensure session is initialized
         next();
     } catch (err) {
         console.error("JWT Verification Error:", err.message);
