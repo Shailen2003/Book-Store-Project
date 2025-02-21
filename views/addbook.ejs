@@ -125,14 +125,20 @@
     </div>
 </body>
 <script>
-    // Show book condition options only if book type is 'used'
-    document.querySelector('select[name="bookType"]').addEventListener('change', function() {
-        let bookConditionField = document.getElementById('bookConditionField');
-        if (this.value === 'used') {
-            bookConditionField.style.display = 'block';
-        } else {
-            bookConditionField.style.display = 'none';
-        }
+    document.addEventListener("DOMContentLoaded", function () {
+        const bookTypeSelect = document.querySelector("select[name='bookType']");
+        const bookConditionField = document.getElementById("bookConditionField");
+        const bookConditionInputs = document.querySelectorAll("input[name='bookCondition']");
+    
+        bookTypeSelect.addEventListener("change", function () {
+            if (this.value === "used") {
+                bookConditionField.style.display = "block";
+                bookConditionInputs.forEach(input => input.setAttribute("required", "true"));
+            } else {
+                bookConditionField.style.display = "none";
+                bookConditionInputs.forEach(input => input.removeAttribute("required"));
+            }
+        });
     });
-</script>
+    </script>    
 </html>
