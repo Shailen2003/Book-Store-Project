@@ -16,7 +16,6 @@
     <header class="bg-blue-600 text-white p-4 fixed w-full top-0 z-50">
         <div class="container mx-auto flex justify-between items-center">
             <a href="#" class="text-xl font-bold">📚 Booket</a>
-            <!-- Search Bar (Visible on large screens) -->
             <input type="search" placeholder="Search Your's choice"
                 class="hidden lg:block p-2 w-96 outline-none rounded-lg text-zinc-900">
 
@@ -24,29 +23,34 @@
             <nav class="hidden md:flex space-x-4">
                 <a href="/" class="p-2 rounded-lg hover:bg-blue-800">Home</a>
                 <a href="/about" class="p-2 rounded-lg hover:bg-blue-800">About</a>
-                <a href="#blog" class="p-2 rounded-lg hover:bg-blue-800">Blogs</a>
-                <a href="#contact" class="p-2 rounded-lg hover:bg-blue-800">Contact</a>
+                <a href="/booksbrowse" class="p-2 rounded-lg hover:bg-blue-800">Store</a>
+                <a href="./#contact" class="p-2 rounded-lg hover:bg-blue-800">Contact</a>
                 <a href="/addbook" class="p-2 rounded-lg hover:bg-blue-800">List Book</a>
-                <a href="/signup" class="bg-white text-blue-600 px-4 py-2 rounded-lg">My Account</a>
+                <a href="/account" class="bg-white text-blue-600 px-4 py-2 rounded-lg">My Account</a>
                 <a href="#" class="bg-white text-blue-600 px-4 py-2 rounded-lg">Cart</a>
             </nav>
 
-            <!-- Hamburger Menu (Mobile) -->
+            <!-- Mobile Menu Button -->
             <div id="menu-icon" class="md:hidden text-2xl cursor-pointer">☰</div>
         </div>
-
-        <!-- Mobile Navigation Menu (Hidden by Default) -->
-        <div id="mobile-menu"
-            class="fixed top-0 right-0 w-64 h-full bg-blue-700 text-white flex flex-col items-center space-y-4 pt-20 transition-transform duration-300 transform translate-x-full">
-            <a href="/" class="p-2 hover:bg-blue-800">Home</a>
-            <a href="#about" class="p-2 hover:bg-blue-800">About</a>
-            <a href="#blog" class="p-2 hover:bg-blue-800">Blogs</a>
-            <a href="#contact" class="p-2 hover:bg-blue-800">Contact</a>
-            <a href="/addbook" class="p-2 hover:bg-blue-800">List Book</a>
-            <a href="#" class="bg-white text-blue-600 px-4 py-2 rounded-lg">My Account</a>
-            <a href="#" class="bg-white text-blue-600 px-4 py-2 rounded-lg">Cart</a>
-        </div>
     </header>
+
+    <!-- Sidebar (Hidden by Default) -->
+    <div id="sidebar" style="z-index: 999;"
+        class="fixed top-0 left-0 w-64 h-full bg-blue-700 text-white flex flex-col space-y-4 p-5 transform -translate-x-full transition-transform duration-300">
+        <button id="close-sidebar" class="text-xl self-end">✖</button>
+        <a href="/" class="p-2 hover:bg-blue-800">Home</a>
+        <a href="/about" class="p-2 hover:bg-blue-800">About</a>
+        <a href="/booksbrowse" class="p-2 hover:bg-blue-800">Store</a>
+        <a href="./#contact" class="p-2 hover:bg-blue-800">Contact</a>
+        <a href="/addbook" class="p-2 hover:bg-blue-800">List Book</a>
+        <a href="/account" class="bg-white text-blue-600 px-4 py-2 rounded-lg">My Account</a>
+        <a href="#" class="bg-white text-blue-600 px-4 py-2 rounded-lg">Cart</a>
+    </div>
+
+    <!-- Overlay (Hidden by Default) -->
+    <div id="overlay" class="fixed top-0 left-0 w-full h-full bg-black opacity-50 hidden"></div>
+
     <div class="max-w-6xl mx-auto p-6 mt-32">
         <!-- Profile Section -->
         <!-- Profile Section -->
@@ -112,7 +116,32 @@
                             <% } %>
         </div>
     </div>
+    <script>
+        // Select elements
+        const menuIcon = document.getElementById("menu-icon");
+        const sidebar = document.getElementById("sidebar");
+        const closeSidebar = document.getElementById("close-sidebar");
+        const overlay = document.getElementById("overlay");
 
+        // Open Sidebar
+        menuIcon.addEventListener("click", () => {
+            sidebar.classList.remove("-translate-x-full");
+            overlay.classList.remove("hidden");
+        });
+
+        // Close Sidebar
+        closeSidebar.addEventListener("click", () => {
+            sidebar.classList.add("-translate-x-full");
+            overlay.classList.add("hidden");
+        });
+
+        // Close Sidebar when clicking outside
+        overlay.addEventListener("click", () => {
+            sidebar.classList.add("-translate-x-full");
+            overlay.classList.add("hidden");
+        });
+
+    </script>
 </body>
 
 </html>
