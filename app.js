@@ -10,7 +10,8 @@ const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 const path = require('path');
 const fs = require("fs");
-const cartFile = path.join(__dirname, "cart.json");
+// const cartFile = path.join(__dirname, "cart.json");
+const Cart = require('./models/cartModel');
 const multer = require('multer');
 const upload = multer(); // Initialize multer to handle form data
 
@@ -22,7 +23,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser());
 // Session setup
 app.use(session({
-    secret: 'your-secret-key', // Change this to a more secure secret in production
+    secret: 'shailen', // Change this to a more secure secret in production
     resave: false,
     saveUninitialized: true,
     cookie: {
@@ -42,28 +43,35 @@ app.get('/', (req, res) => {
     res.render('index'); // Render the index.ejs file
 });
 
-app.get('/account', isLoggedIn, async (req, res) => {
+// ✅ Route to view account & cart details
+app.get("/account", isLoggedIn, async (req, res) => {
     try {
-        let user = await userModel.findOne({ email: req.user.email })
-            .populate('posts')  // ✅ Ensure books are fetched
-            .lean();
+        console.log("Fetching Account Data for:", req.user);
 
+        const user = await userModel.findOne({ email: req.user.email }).populate("posts").lean();
         if (!user) {
-            console.log("User not found. Redirecting to login.");
-            return res.redirect('/login'); 
+            return res.redirect("/login");
         }
 
-        console.log("User Data:", user); // ✅ Debugging
-        res.render('account', { user });
+        // ✅ **Use `req.user._id` instead of `req.user.id`**
+        const cartItems = await Cart.find({ user: req.user._id }).lean();
+        console.log("Cart Items Fetched:", cartItems);
+
+        const totalItems = cartItems.length;
+        const totalPrice = cartItems.reduce((sum, item) => sum + (item.price || 0), 0); 
+
+        res.render("account", {
+            user: user,
+            cartItems: cartItems,
+            totalItems: totalItems,
+            totalPrice: totalPrice.toFixed(2)
+        });
 
     } catch (error) {
-        console.error("Error fetching user:", error.message);
+        console.error("Error fetching account data:", error.message);
         res.status(500).send("Server Error");
     }
 });
-
-
-
 
 app.get('/signup', (req, res) => {
     res.render('signup');
@@ -113,10 +121,6 @@ app.post('/addbook', isLoggedIn, upload.none(), async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 });
-
-
-
-
 app.post('/signup', async (req, res) => {
     const { name, phone, email, password, pincode } = req.body;
 
@@ -175,15 +179,21 @@ app.post('/login', async (req, res) => {
             return res.status(400).send('Invalid credentials');
         }
 
-        // JWT Token Generate
-        const token = jwt.sign({ email: user.email, userId: user._id }, 'shailen', { expiresIn: '1h' });
+        // Generate JWT Token
+        const token = jwt.sign({ email: user.email, userId: user._id.toString() }, 'shailen', { expiresIn: '1h' });
 
-        // Cookie में Token Set करें
-        res.cookie('token', token, { httpOnly: true, secure: false });
+        // Set Token in Cookie
+        res.cookie('token', token, { 
+            httpOnly: true, 
+            secure: false,  // Change to `true` if using HTTPS
+            sameSite: "lax", // Helps prevent CSRF issues
+            maxAge: 60 * 60 * 1000 // 1 hour
+        });
+        
 
-        // ✅ **Session में User की Information Set करें**
+        // ✅ **Ensure _id is stored properly in session**
         req.session.user = {
-            id: user._id,
+            _id: user._id.toString(),  // Ensure `_id` is a string for MongoDB queries
             name: user.name,
             email: user.email,
             phone: user.phone,
@@ -201,6 +211,7 @@ app.post('/login', async (req, res) => {
 
 
 
+
 app.get('/logout', (req, res) => {
     res.cookie("token", "", { expires: new Date(0) }); // Properly clear the cookie
     req.session.destroy(); // Destroy session
@@ -213,74 +224,122 @@ app.get('/about', (req, res) => {
 })
 function isLoggedIn(req, res, next) {
     try {
-        const token = req.cookies.token; // Ensure correct cookie name
+        const token = req.cookies.token;
+        console.log("Token Received:", token);
 
-        if (!token) {
-            console.log("No token found. Redirecting to login.");
-            return res.redirect('/login'); // Redirect if token is missing
+        if (token) {
+            let data = jwt.verify(token, "shailen");
+            console.log("JWT Verified Data:", data);
+            req.user = data;
+            req.session.user = req.session.user || { _id: data.userId, email: data.email };
+        } else if (req.session.user) {
+            console.log("Session User Found:", req.session.user);
+            req.user = req.session.user;
+        } else {
+            console.log("No token or session. Redirecting to login.");
+            return res.redirect('/login');
         }
 
-        let data = jwt.verify(token, "shailen");
-        // console.log("JWT Verified Data:", data);
-        req.user = data;
-        req.session.user = req.session.user || { id: data.userId, email: data.email };  // Ensure session is initialized
         next();
     } catch (err) {
         console.error("JWT Verification Error:", err.message);
-        return res.redirect('/login'); // Redirect if JWT is invalid
+        return res.redirect('/login');
     }
 }
-
-
-
-
 app.get('/addbook', (req, res) => {
     res.render('addbook');
 });
 app.get('/booksbrowse', (req, res) => {
     res.render('bookstore');
 });
-// Temporary in-memory cart storage
-let cart = [];
+// Route to view the car
+app.get("/cart", isLoggedIn, async (req, res) => {
+    try {
+        console.log("Fetching cart for user:", req.user._id);
 
-// Route to add items to the cart
-app.post('/add-to-cart', (req, res) => {
-    const { name, price, image } = req.body;
-    
-    // Generate a unique ID for each cart item
-    const itemId = cart.length + 1;
-    
-    // Push the item to the cart array
-    cart.push({ id: itemId, name, price, image });
-    
-    // Redirect to cart page
-    res.redirect('/cart');
+        const userId = new mongoose.Types.ObjectId(req.user._id);
+        const cartItems = await Cart.find({ user: userId }).lean();
+
+        console.log("Cart Items Fetched:", cartItems);
+
+        res.render("account", {
+            cartItems: cartItems,
+            totalItems: cartItems.length,
+            totalPrice: cartItems.reduce((sum, item) => sum + parseFloat(item.price), 0).toFixed(2)
+        });
+
+    } catch (error) {
+        console.error("Error fetching cart:", error.message);
+        res.status(500).send("Server Error");
+    }
 });
 
-// Route to view the cart
-app.get('/cart', (req, res) => {
-    const totalItems = cart.length;
-    const totalPrice = cart.reduce((sum, item) => sum + parseFloat(item.price), 0);
-    
-    res.render('cart', {
-        cartItems: cart,
-        totalItems: totalItems,
-        totalPrice: totalPrice
-    });
+// ✅ Route to add an item to the cart (Structured like addbook)
+app.post('/add-to-cart', isLoggedIn, upload.none(), async (req, res) => {
+    const { bookId, name, price, image } = req.body;   
+    console.log("Received Data:", req.body);
+
+    const userId = req.user ? req.user.userId : null; 
+
+    if (!userId) {
+        return res.status(401).json({ error: "User not authenticated" });
+    }
+
+    if (!bookId) { 
+        return res.status(400).json({ error: "Book ID is required" });
+    }
+
+    try {
+        const newCartItem = new Cart({
+            user: userId, 
+            id: bookId,  // ✅ Ensure bookId is set as `id`
+            name, 
+            price: Number(price),
+            image
+        });
+
+        await newCartItem.save();
+
+        await userModel.findByIdAndUpdate(userId, { $push: { cart: newCartItem._id } });
+
+        console.log("✅ Item added to cart:", newCartItem);
+
+        res.redirect('/account'); 
+
+    } catch (error) {
+        console.error("❌ Error adding to cart:", error);
+        res.status(500).json({ error: error.message });
+    }
 });
 
 // Route to remove an item from the cart
-app.get('/delete-item/:id', (req, res) => {
-    const itemId = parseInt(req.params.id);
-    cart = cart.filter(item => item.id !== itemId);
-    res.redirect('/cart');
+app.get("/delete-item/:id", isLoggedIn, async (req, res) => {
+    try {
+        const userId = req.user._id;
+        const itemId = parseInt(req.params.id);
+
+        await Cart.findOneAndDelete({ user: userId, id: itemId });
+        res.redirect("/account");
+
+    } catch (error) {
+        console.error("Error deleting item:", error.message);
+        res.status(500).send("Server Error");
+    }
 });
+
 
 // Route to clear the entire cart
-app.get('/clear-cart', (req, res) => {
-    cart = []; // Empty the cart
-    res.redirect('/cart');
-});
+app.get("/clear-cart", isLoggedIn, async (req, res) => {
+    try {
+        const userId = req.user._id;
+        await Cart.deleteMany({ user: userId }); // Clear only this user's cart
 
+        res.redirect("/booksbrowse");
+
+    } catch (error) {
+        console.error("Error clearing cart:", error.message);
+        res.status(500).send("Server Error");
+    }
+});
 const PORT = process.env.PORT || 3000;
 app.listen(3000, () => console.log(`Server running on http://localhost:${3000}`));

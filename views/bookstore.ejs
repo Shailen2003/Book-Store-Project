@@ -117,120 +117,79 @@
             class="text-4xl font-bold text-gray-800 text-center w-full p-4 bg-gradient-to-r from-blue-500 to-green-400 text-transparent bg-clip-text ">
             Available Books
         </h2>
+        <!-- Books Container -->
         <div id="book-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-4">
-            <!-- Sample Books (Initially Visible) -->
-            <div
-                class="book-card bg-white p-4 rounded shadow-lg transition duration-300 hover:shadow-2xl hover:scale-105 flex flex-col items-center h-full relative overflow-hidden">
-                <!-- "New Book" Label -->
+            <!-- 📘 Book 1 -->
+            <div class="book-card bg-white p-4 rounded shadow-lg transition duration-300 hover:shadow-2xl hover:scale-105 flex flex-col items-center h-full relative"
+                data-book-id="book001">
+
                 <span
-                    class="absolute top-3 left-3 bg-gradient-to-r from-red-500 to-orange-400 text-white px-3 py-1 text-sm z-10 font-bold rounded-md shadow-md transition-all duration-300 hover:scale-110 hover:from-red-600 hover:to-orange-500 ">
+                    class="absolute top-3 left-3 bg-gradient-to-r from-red-500 to-orange-400 text-white px-3 py-1 text-sm font-bold rounded-md shadow-md">
                     New Book
                 </span>
 
-                <!-- Book Image -->
                 <div class="relative w-full h-80 mb-4">
                     <img src="https://www.richdad.com/MediaLibrary/RichDad/Images/3d-books/2020/front-covers/3d-front-RDPD.png"
-                        alt="Book" class="w-full h-full object-cover rounded-md">
+                        alt="Rich Dad Poor Dad" class="book-image w-full h-full object-cover rounded-md">
                 </div>
 
-                <!-- Book Details -->
-                <h3 class="font-bold text-lg mt-1">Rich Dad Poor Dad</h3>
-                <p class="text-gray-600">Robert Kiyosaki</p>
-                <p class="text-blue-600 font-bold mt-1">₹2999</p>
+                <h3 class="book-title font-bold text-lg mt-1">Rich Dad Poor Dad</h3>
+                <p class="book-author text-gray-600">Robert Kiyosaki</p>
+                <p class="book-price text-blue-600 font-bold mt-1">₹2999</p>
 
-                <!-- Buy Now Button -->
                 <button
                     class="mt-2 bg-blue-600 text-white py-2 px-4 rounded w-full hover:bg-blue-700 hover:shadow-xl transition-all duration-300">
                     Buy Now
                 </button>
 
-                <!-- Add to Cart Form -->
-                <form action="/add-to-cart" method="POST" class="mt-2 w-full">
-                    <input type="hidden" name="name" value="Rich Dad Poor Dad">
-                    <input type="hidden" name="price" value="2999">
-                    <input type="hidden" name="image"
-                        value="https://www.richdad.com/MediaLibrary/RichDad/Images/3d-books/2020/front-covers/3d-front-RDPD.png">
+                <form action="/add-to-cart" method="POST" class="add-to-cart-form mt-2 w-full">
+                    <input type="hidden" name="bookId">
+                    <input type="hidden" name="name">
+                    <input type="hidden" name="price">
+                    <input type="hidden" name="image">
                     <button type="submit"
-                        class="bg-green-600 text-white py-2 px-4 rounded w-full hover:bg-green-700 hover:shadow-xl transition-all duration-300">
+                        class="add-to-cart bg-green-600 text-white py-2 px-4 rounded w-full hover:bg-green-700 hover:shadow-xl transition-all duration-300">
                         Add to Cart
                     </button>
                 </form>
             </div>
-            <div
-                class="book-card bg-white p-4 rounded shadow-lg transition duration-300 hover:shadow-2xl hover:scale-105 flex flex-col items-center h-full relative overflow-hidden">
-                <!-- "New Book" Label -->
+
+            <!-- 📙 Book 2 -->
+            <div class="book-card bg-white p-4 rounded shadow-lg transition duration-300 hover:shadow-2xl hover:scale-105 flex flex-col items-center h-full relative"
+                data-book-id="book002">
+
                 <span
-                    class="absolute top-3 left-3 bg-gradient-to-r from-red-500 to-orange-400 text-white px-3 py-1 text-sm z-10 font-bold rounded-md shadow-md transition-all duration-300 hover:scale-110 hover:from-red-600 hover:to-orange-500">
+                    class="absolute top-3 left-3 bg-gradient-to-r from-red-500 to-orange-400 text-white px-3 py-1 text-sm font-bold rounded-md shadow-md">
                     Old Book
                 </span>
 
-                <!-- Book Image -->
                 <div class="relative w-full h-80 mb-4">
-                    <img src="https://www.roaringcreationsfilms.com/rcsfilms-media/think.png" alt="Book"
-                        class="w-full h-full object-cover rounded-md">
+                    <img src="https://www.roaringcreationsfilms.com/rcsfilms-media/think.png" alt="Think & Grow Rich"
+                        class="book-image w-full h-full object-cover rounded-md">
                 </div>
 
-                <!-- Book Details -->
-                <h3 class="font-bold text-lg mt-1">Think & Grow Rich</h3>
-                <p class="text-gray-600">Napoleon Hill</p>
-                <p class="text-blue-600 font-bold mt-1">₹599</p>
+                <h3 class="book-title font-bold text-lg mt-1">Think & Grow Rich</h3>
+                <p class="book-author text-gray-600">Napoleon Hill</p>
+                <p class="book-price text-blue-600 font-bold mt-1">₹599</p>
 
-                <!-- Buy Now Button -->
                 <button
                     class="mt-2 bg-blue-600 text-white py-2 px-4 rounded w-full hover:bg-blue-700 hover:shadow-xl transition-all duration-300">
                     Buy Now
                 </button>
 
-                <!-- Add to Cart Form -->
-                <form action="/add-to-cart" method="POST" class="mt-2 w-full">
-                    <input type="hidden" name="name" value="Think & Grow Rich">
-                    <input type="hidden" name="price" value="599">
-                    <input type="hidden" name="image"
-                        value="https://www.roaringcreationsfilms.com/rcsfilms-media/think.png">
+                <form action="/add-to-cart" method="POST" class="add-to-cart-form mt-2 w-full">
+                    <input type="hidden" name="bookId">
+                    <input type="hidden" name="name">
+                    <input type="hidden" name="price">
+                    <input type="hidden" name="image">
                     <button type="submit"
-                        class="bg-green-600 text-white py-2 px-4 rounded w-full hover:bg-green-700 hover:shadow-xl transition-all duration-300">
-                        Add to Cart
-                    </button>
-                </form>
-            </div>
-            <div
-                class="book-card bg-white p-4 rounded shadow-lg transition duration-300 hover:shadow-2xl hover:scale-105 flex flex-col items-center h-full relative">
-                <!-- "Old Book" Label (Now Always Visible) -->
-                <span
-                    class="absolute top-3 left-3 bg-gradient-to-r from-red-500 to-orange-600 text-white px-3 py-1 text-sm font-bold rounded-md shadow-md z-10 transition-all duration-300 hover:scale-110 hover:from-red-600 hover:to-orange-500">
-                    Old Book
-                </span>
-
-                <!-- Book Image -->
-                <div class="relative w-full h-80 mb-4 z-0">
-                    <img src="https://p7.hiclipart.com/preview/37/252/1019/harry-potter-and-the-chamber-of-secrets-harry-potter-and-the-philosopher-s-stone-book-hogwarts-harry-potter.jpg"
-                        alt="Book" class="w-full h-full object-cover rounded-md">
-                </div>
-
-                <!-- Book Details -->
-                <h3 class="font-bold text-lg mt-1">Harry Potter</h3>
-                <p class="text-gray-600">J.K Rowling</p>
-                <p class="text-blue-600 font-bold mt-1">₹499</p>
-
-                <!-- Buy Now Button -->
-                <button
-                    class="mt-2 bg-blue-600 text-white py-2 px-4 rounded w-full hover:bg-blue-700 hover:shadow-xl transition-all duration-300">
-                    Buy Now
-                </button>
-
-                <!-- Add to Cart Form -->
-                <form action="/add-to-cart" method="POST" class="mt-2 w-full">
-                    <input type="hidden" name="name" value="Harry Potter">
-                    <input type="hidden" name="price" value="499">
-                    <input type="hidden" name="image"
-                        value="https://p7.hiclipart.com/preview/37/252/1019/harry-potter-and-the-chamber-of-secrets-harry-potter-and-the-philosopher-s-stone-book-hogwarts-harry-potter.jpg">
-                    <button type="submit"
-                        class="bg-green-600 text-white py-2 px-4 rounded w-full hover:bg-green-700 hover:shadow-xl transition-all duration-300">
+                        class="add-to-cart bg-green-600 text-white py-2 px-4 rounded w-full hover:bg-green-700 hover:shadow-xl transition-all duration-300">
                         Add to Cart
                     </button>
                 </form>
             </div>
         </div>
+
         <!-- Explore Books Button -->
         <!-- <div class="flex justify-center items-center mt-6">
             <button id="load-more"
@@ -402,6 +361,49 @@
         </div>
     </footer>
     <script>
+        // Select all book cards
+        document.addEventListener("DOMContentLoaded", () => {
+            document.querySelectorAll(".add-to-cart-form").forEach(form => {
+                form.addEventListener("submit", (event) => {
+                    event.preventDefault(); // Prevent default form submission
+
+                    let bookCard = form.closest(".book-card"); // Get the closest book card
+                    let bookId = bookCard?.getAttribute("data-book-id") || ""; // Get bookId safely
+                    let bookName = bookCard?.querySelector(".book-title")?.innerText.trim() || "";
+                    let bookPrice = parseFloat(bookCard?.querySelector(".book-price")?.innerText.replace("₹", "").trim()) || 0;
+                    let bookImage = bookCard?.querySelector(".book-image")?.src || "";
+
+                    // Debugging: Check if bookId is being retrieved correctly
+                    console.log("Submitting book:", { bookId, bookName, bookPrice, bookImage });
+
+                    if (!bookId) {
+                        alert("Error: Book ID is missing!"); // Alert if bookId is not found
+                        return;
+                    }
+
+                    // Ensure inputs exist before setting values
+                    let bookIdInput = form.querySelector("input[name='bookId']");
+                    let nameInput = form.querySelector("input[name='name']");
+                    let priceInput = form.querySelector("input[name='price']");
+                    let imageInput = form.querySelector("input[name='image']");
+
+                    if (!bookIdInput || !nameInput || !priceInput || !imageInput) {
+                        console.error("Error: Form inputs are missing!");
+                        return;
+                    }
+
+                    // Set hidden input values
+                    bookIdInput.value = bookId;
+                    nameInput.value = bookName;
+                    priceInput.value = bookPrice;
+                    imageInput.value = bookImage;
+
+                    // Submit the form after setting values
+                    form.submit();
+                });
+            });
+        });
+
         // Select elements
         const menuIcon = document.getElementById("menu-icon");
         const sidebar = document.getElementById("sidebar");
