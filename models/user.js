@@ -9,7 +9,8 @@ const userSchema = new mongoose.Schema({
     email: String,
     password: String,
     pincode:Number,
-    posts:[{type:mongoose.Schema.Types.ObjectId, ref:'postbook'}]
+    posts:[{type:mongoose.Schema.Types.ObjectId, ref:'postbook'}],
+    cart: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Cart' }]
 });
 
 module.exports = mongoose.model('user', userSchema);
