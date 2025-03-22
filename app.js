@@ -289,7 +289,7 @@ app.get("/cart", isLoggedIn, async (req, res) => {
     console.log("Fetching cart for user:", req.user._id);
 
     const userId = new mongoose.Types.ObjectId(req.user.userId);
-const cartItems = await Cart.find({ user: userId }).lean();
+    const cartItems = await Cart.find({ user: userId }).lean();
 
 
 
@@ -316,61 +316,82 @@ app.post("/add-to-cart", isLoggedIn, upload.none(), async (req, res) => {
   const userId = new mongoose.Types.ObjectId(req.user.userId);
 
   if (!userId) {
-    return res.status(401).json({ error: "User not authenticated" });
+      return res.status(401).json({ error: "User not authenticated" });
   }
 
   if (!bookId) {
-    return res.status(400).json({ error: "Book ID is required" });
+      return res.status(400).json({ error: "Book ID is required" });
   }
 
   try {
-    const newCartItem = new Cart({
-      user: userId,
-      id: bookId, // ✅ Ensure bookId is set as `id`
-      name,
-      price: Number(price),
-      image,
-    });
+      // ✅ **Check if the book is already in the user's cart**
+      const existingCartItem = await Cart.findOne({ user: userId, id: bookId });
 
-    await newCartItem.save();
+      if (existingCartItem) {
+          return res.status(400).json({ error: "Book is already in your cart" });
+      }
 
-    await userModel.findByIdAndUpdate(userId, { $push: { cart: newCartItem._id } }, { new: true });
+      // ✅ **If book is not in cart, then add it**
+      const newCartItem = new Cart({
+          user: userId,
+          id: bookId,  
+          name,
+          price: Number(price),
+          image,
+      });
 
-    console.log("✅ Item added to cart:", newCartItem);
+      await newCartItem.save();
 
-    res.redirect("/account");
+      await userModel.findByIdAndUpdate(userId, { $push: { cart: newCartItem._id } }, { new: true });
+
+      console.log("✅ Item added to cart:", newCartItem);
+
+      res.redirect("/account");
   } catch (error) {
-    console.error("❌ Error adding to cart:", error);
-    res.status(500).json({ error: error.message });
+      console.error("❌ Error adding to cart:", error);
+      res.status(500).json({ error: error.message });
   }
 });
+
 
 // Route to remove an item from the cart
-app.get("/delete-item/:id", isLoggedIn, async (req, res) => {
-  try {
-    const userId = req.user._id;
-    const itemId = parseInt(req.params.id);
+// app.get("/delete-item/:id", isLoggedIn, async (req, res) => {
+//   try {
+//     const userId = req.user._id;
+//     const itemId = parseInt(req.params.id);
 
-    await Cart.findOneAndDelete({ user: userId, id: itemId });
-    res.redirect("/account");
-  } catch (error) {
-    console.error("Error deleting item:", error.message);
-    res.status(500).send("Server Error");
-  }
-});
+//     await Cart.findOneAndDelete({ user: userId, id: itemId });
+//     res.redirect("/account");
+//   } catch (error) {
+//     console.error("Error deleting item:", error.message);
+//     res.status(500).send("Server Error");
+//   }
+// });
+
+
 
 // Route to clear the entire cart
-app.get("/clear-cart", isLoggedIn, async (req, res) => {
+app.get("/remove-item/:id", isLoggedIn, async (req, res) => {
   try {
-    const userId = req.user._id;
-    await Cart.deleteMany({ user: userId }); // Clear only this user's cart
+    const itemId = req.params.id; // Get item ID from URL
+    console.log("Deleting item:", itemId);
 
-    res.redirect("/booksbrowse");
+    // Find and delete the cart item
+    const deletedItem = await Cart.findByIdAndDelete(itemId);
+
+    if (!deletedItem) {
+      return res.status(404).send("Item not found");
+    }
+
+    console.log("Deleted item:", deletedItem);
+
+    res.redirect("/account"); // Redirect to account page after deleting
   } catch (error) {
-    console.error("Error clearing cart:", error.message);
+    console.error("Error deleting cart item:", error.message);
     res.status(500).send("Server Error");
   }
 });
+
 const PORT = process.env.PORT || 3000;
 app.listen(3000, () =>
   console.log(`Server running on http://localhost:${3000}`)

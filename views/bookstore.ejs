@@ -188,6 +188,35 @@
                     </button>
                 </form>
             </div>
+            <!-- 📗 Book 3 -->
+            <div class="book-card bg-white p-4 rounded shadow-lg transition duration-300 hover:shadow-2xl hover:scale-105 flex flex-col items-center h-full relative"
+                data-book-id="book003">
+                <span
+                    class="absolute top-3 left-3 bg-gradient-to-r from-red-500 to-orange-600 text-white px-3 py-1 text-sm font-bold rounded-md shadow-md">
+                    Old Book
+                </span>
+                <div class="relative w-full h-80 mb-4">
+                    <img src="https://p7.hiclipart.com/preview/37/252/1019/harry-potter-and-the-chamber-of-secrets-harry-potter-and-the-philosopher-s-stone-book-hogwarts-harry-potter.jpg"
+                        alt="Harry Potter" class="book-image w-full h-full object-cover rounded-md">
+                </div>
+                <h3 class="book-title font-bold text-lg mt-1">Harry Potter</h3>
+                <p class="book-author text-gray-600">J.K Rowling</p>
+                <p class="book-price text-blue-600 font-bold mt-1">₹499</p>
+                <button
+                    class="mt-2 bg-blue-600 text-white py-2 px-4 rounded w-full hover:bg-blue-700 hover:shadow-xl transition-all duration-300">
+                    Buy Now
+                </button>
+                <form action="/add-to-cart" method="POST" class="add-to-cart-form mt-2 w-full">
+                    <input type="hidden" name="bookId">
+                    <input type="hidden" name="name">
+                    <input type="hidden" name="price">
+                    <input type="hidden" name="image">
+                    <button type="submit"
+                        class="add-to-cart bg-green-600 text-white py-2 px-4 rounded w-full hover:bg-green-700 hover:shadow-xl transition-all duration-300">
+                        Add to Cart
+                    </button>
+                </form>
+            </div>
         </div>
 
         <!-- Explore Books Button -->

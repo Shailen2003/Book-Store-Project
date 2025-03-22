@@ -131,7 +131,9 @@
                                 </p>
                             </div>
                         </div>
-                        <a href="/delete-item/<%= item._id %>" class="text-red-500 hover:underline">Remove</a>
+                        <a href="/remove-item/<%= String(item._id) %>" class="text-red-500 hover:underline">
+                            Remove
+                        </a>
                     </li>
                     <% }) %>
             </ul>
