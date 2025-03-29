@@ -16,6 +16,7 @@ const multer = require("multer");
 const upload = multer(); // Initialize multer to handle form data
 const Razorpay = require("razorpay"); // Require Razorpay
 const shortid = require('shortid')
+require('dotenv').config(); 
 
 app.set("view engine", "ejs");
 app.use(express.json());
@@ -44,8 +45,8 @@ app.use((req, res, next) => {
 
 // Initialize Razorpay
 const razorpay = new Razorpay({
-  key_id: "rzp_live_ZiCuMFt0hTLAej", // Replace with your Key ID
-  key_secret: "u2CJMnAQnfGdMRZpwpazk5Yo", // Replace with your Key Secret
+  key_id: process.env.RAZORPAY_KEY_ID,
+  key_secret: process.env.RAZORPAY_KEY_SECRET,
 });
 
 // ... (Your existing routes: /, /account, /signup, /login, etc.) ...
@@ -413,7 +414,7 @@ app.get("/checkout", isLoggedIn, async (req, res) => {
       cartItems: cartItems,
       totalPrice: totalPrice.toFixed(2),
       order: order,
-      key_id: "rzp_live_ZiCuMFt0hTLAej", // Pass Key ID to frontend
+      key_id: process.env.RAZORPAY_KEY_ID, // Pass Key ID to frontend
     });
   } catch (error) {
     console.error("Error during checkout:", error);
@@ -434,7 +435,7 @@ app.post(
         razorpay_order_id + "|" + razorpay_payment_id;
 
       const expectedSignature = crypto
-        .createHmac("sha256", "u2CJMnAQnfGdMRZpwpazk5Yo") // Replace with your Key Secret
+        .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET) // Replace with your Key Secret
         .update(body.toString())
         .digest("hex");
 
