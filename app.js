@@ -14,6 +14,8 @@ const fs = require("fs");
 const Cart = require("./models/cartModel");
 const multer = require("multer");
 const upload = multer(); // Initialize multer to handle form data
+const Razorpay = require("razorpay"); // Require Razorpay
+const shortid = require('shortid')
 
 app.set("view engine", "ejs");
 app.use(express.json());
@@ -39,6 +41,14 @@ app.use((req, res, next) => {
   }
   next();
 });
+
+// Initialize Razorpay
+const razorpay = new Razorpay({
+  key_id: "rzp_live_ZiCuMFt0hTLAej", // Replace with your Key ID
+  key_secret: "u2CJMnAQnfGdMRZpwpazk5Yo", // Replace with your Key Secret
+});
+
+// ... (Your existing routes: /, /account, /signup, /login, etc.) ...
 
 app.get("/", (req, res) => {
   res.render("index"); // Render the index.ejs file
@@ -352,25 +362,6 @@ app.post("/add-to-cart", isLoggedIn, upload.none(), async (req, res) => {
       res.status(500).json({ error: error.message });
   }
 });
-
-
-// Route to remove an item from the cart
-// app.get("/delete-item/:id", isLoggedIn, async (req, res) => {
-//   try {
-//     const userId = req.user._id;
-//     const itemId = parseInt(req.params.id);
-
-//     await Cart.findOneAndDelete({ user: userId, id: itemId });
-//     res.redirect("/account");
-//   } catch (error) {
-//     console.error("Error deleting item:", error.message);
-//     res.status(500).send("Server Error");
-//   }
-// });
-
-
-
-// Route to clear the entire cart
 app.get("/remove-item/:id", isLoggedIn, async (req, res) => {
   try {
     const itemId = req.params.id; // Get item ID from URL
@@ -391,6 +382,77 @@ app.get("/remove-item/:id", isLoggedIn, async (req, res) => {
     res.status(500).send("Server Error");
   }
 });
+
+// ✅ Checkout route
+app.get("/checkout", isLoggedIn, async (req, res) => {
+  try {
+    const userId = new mongoose.Types.ObjectId(req.user.userId);
+    const cartItems = await Cart.find({ user: userId }).lean();
+    const totalPrice = cartItems.reduce(
+      (sum, item) => sum + (item.price || 0),
+      0
+    );
+
+    // Create Razorpay order
+    const amountInPaise = totalPrice * 100;  // Razorpay expects amount in paise
+    const currency = "INR";
+    const receiptId = shortid.generate(); // Generate a unique receipt ID
+
+    const order = await razorpay.orders.create({
+      amount: amountInPaise,
+      currency: currency,
+      receipt: receiptId,
+      payment_capture: 1, // Auto capture payment
+    });
+
+    console.log("Razorpay Order:", order);
+
+    // Render checkout page with order details
+    res.render("checkout", {
+      user: req.user,
+      cartItems: cartItems,
+      totalPrice: totalPrice.toFixed(2),
+      order: order,
+      key_id: "rzp_live_ZiCuMFt0hTLAej", // Pass Key ID to frontend
+    });
+  } catch (error) {
+    console.error("Error during checkout:", error);
+    res.status(500).send("Checkout Failed");
+  }
+});
+
+// ✅ Payment verification route
+app.post(
+  "/payment/verification",
+  express.urlencoded({ extended: false }),
+  async (req, res) => {
+    try {
+      const { razorpay_order_id, razorpay_payment_id, razorpay_signature } =
+        req.body;
+
+      const body =
+        razorpay_order_id + "|" + razorpay_payment_id;
+
+      const expectedSignature = crypto
+        .createHmac("sha256", "u2CJMnAQnfGdMRZpwpazk5Yo") // Replace with your Key Secret
+        .update(body.toString())
+        .digest("hex");
+
+      if (expectedSignature === razorpay_signature) {
+        // Payment is successful
+        console.log("✅ Payment successful");
+        res.send("Payment Successful!"); // Or redirect to a success page
+      } else {
+        // Payment failed
+        console.log("❌ Payment failed - Signature mismatch");
+        res.status(400).send("Payment Failed - Signature Mismatch");
+      }
+    } catch (error) {
+      console.error("Payment verification error:", error);
+      res.status(500).send("Payment Verification Error");
+    }
+  }
+);
 
 const PORT = process.env.PORT || 3000;
 app.listen(3000, () =>
