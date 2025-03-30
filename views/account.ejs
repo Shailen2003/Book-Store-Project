@@ -82,39 +82,31 @@
 
 
         <!-- My Book Posts Section -->
-        <div class="bg-white shadow-lg rounded-lg p-6">
-            <h2 class="text-2xl font-semibold mb-4">My Book Posts</h2>
-            <% if (user.posts && user.posts.length> 0) { %>
-                <% user.posts.forEach(post=> { %>
-                    <div class="border rounded-lg p-4 flex items-center justify-between mb-4">
-                        <div>
-                            <h3 class="text-lg font-medium">
-                                <%= post.title %>
-                            </h3>
-                            <p class="text-sm text-gray-600">Purpose: <%= post.bookPurpose %>
-                            </p>
-                            <p class="text-sm text-gray-600">Condition: <%= post.bookCondition || 'N/A' %>
-                            </p>
-                            <p class="text-sm text-gray-600">Quantity Available: <%= post.quantity %>
-                            </p>
-                            <p class="text-sm text-green-600">Price: ₹<%= post.price %>
-                            </p>
-                        </div>
-                        <div class="flex space-x-2">
-                            <a href="/bookpost/<%= post._id %>"
-                                class="bg-blue-500 text-white px-3 py-1 rounded">View</a>
-                            <a href="/bookpost/edit/<%= post._id %>"
-                                class="bg-green-500 text-white px-3 py-1 rounded">Edit</a>
-                            <form action="/bookpost/delete/<%= post._id %>" method="POST" class="inline">
-                                <button type="submit" class="bg-red-500 text-white px-3 py-1 rounded">Delete</button>
-                            </form>
-                        </div>
+        <!-- Posted Books -->
+<div class="bg-white rounded-lg shadow-md p-6 mt-8">
+    <h2 class="text-2xl font-semibold mb-4">Your Posted Books</h2>
+    <% if (user.posts && user.posts.length > 0) { %>
+        <ul class="list-none">
+            <% user.posts.forEach(post => { %>
+                <li class="py-2 border-b flex items-center justify-between">
+                    <div>
+                        <span class="font-semibold"><%= post.title %></span>
                     </div>
-                    <% }); %>
-                        <% } else { %>
-                            <p class="text-gray-500">No books posted yet.</p>
-                            <% } %>
-        </div>
+                    <div class="flex space-x-2">
+                        <a href="/bookpost/<%= post._id %>" class="bg-blue-500 text-white px-3 py-1 rounded">View</a>
+                        <a href="/bookpost/edit/<%= post._id %>" class="bg-green-500 text-white px-3 py-1 rounded">Edit</a>
+                        <form action="/bookpost/delete/<%= post._id %>" method="POST" class="inline">
+                            <button type="submit" class="bg-red-500 text-white px-3 py-1 rounded">Delete</button>
+                        </form>
+                    </div>
+                </li>
+            <% }); %>
+        </ul>
+    <% } else { %>
+        <p>You haven't posted any books yet.</p>
+    <% } %>
+</div>
+
         <!-- Cart Section -->
         <h2 class="text-2xl font-semibold mt-6">Your Cart</h2>
         <% if (Array.isArray(cartItems) && cartItems.length> 0) { %>

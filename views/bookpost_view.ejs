@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Book Post</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto p-8">
+        <h1 class="text-2xl font-semibold mb-4">View Book Post</h1>
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <h2 class="text-xl font-semibold mb-2"><%= post.title %></h2>
+            <p><strong>Purpose:</strong> <%= post.bookPurpose %></p>
+            <p><strong>Type:</strong> <%= post.bookType %></p>
+            <p><strong>Condition:</strong> <%= post.bookCondition %></p>
+            <p><strong>Quantity:</strong> <%= post.quantity %></p>
+            <p><strong>Price:</strong> <%= post.price %></p>
+            <p><strong>Shipping Charges:</strong> <%= post.shippingCharges %></p>
+            <p><strong>Seller Name:</strong> <%= post.sellerDetails.name %></p>
+            <p><strong>Seller Email:</strong> <%= post.sellerDetails.email %></p>
+            <p><strong>Seller Address:</strong> <%= post.sellerDetails.address %></p>
+            <p><strong>Seller Phone:</strong> <%= post.sellerDetails.phone %></p>
+            <a href="/account" class="inline-block mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Back to Account</a>
+        </div>
+    </div>
+</body>
+</html>

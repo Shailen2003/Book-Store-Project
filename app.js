@@ -100,9 +100,6 @@ app.get("/login", (req, res) => {
   res.render("login");
 });
 app.post("/addbook", isLoggedIn, upload.none(), async (req, res) => {
-  // console.log("Session User:", req.session.user);
-  // console.log("Request User:", req.user);
-
   const {
     title,
     bookPurpose,
@@ -115,25 +112,26 @@ app.post("/addbook", isLoggedIn, upload.none(), async (req, res) => {
     sellerEmail,
     sellerAddress,
     sellerPhone,
+    freeShipping // Get value of the shipping
   } = req.body;
 
-  const userId = req.user ? req.user.userId : null; // Ensure user is logged in
+  const userId = req.user ? req.user.userId : null;
 
   if (!userId) {
     return res.status(401).json({ error: "User not authenticated" });
   }
 
   try {
-    // Create new book post
     const newBook = new postModel({
-      seller: userId, // ✅ Make sure seller ID is correct
+      seller: userId,
       title,
       bookPurpose,
       bookType,
-      bookCondition: bookType === "used" ? bookCondition : undefined,
+      bookCondition: bookType === "used" ? bookCondition : undefined, // Conditionally set bookCondition
       quantity: Number(quantity),
       price: Number(price),
       shippingCharges: Number(shippingCharges) || 0,
+      freeShipping: freeShipping === 'on', // Check if the box is checked
       sellerDetails: {
         name: sellerName,
         email: sellerEmail,
@@ -144,19 +142,17 @@ app.post("/addbook", isLoggedIn, upload.none(), async (req, res) => {
 
     await newBook.save();
 
-    // Associate book with user
     await userModel.findByIdAndUpdate(userId, {
       $push: { posts: newBook._id },
     });
 
-    // console.log("Book added successfully:", newBook);
-
-    res.redirect("/account"); // Redirect to account page
+    res.redirect("/account");
   } catch (error) {
     console.error("Error saving book:", error);
     res.status(500).json({ error: error.message });
   }
 });
+
 app.post("/signup", async (req, res) => {
   const { name, phone, email, password, pincode } = req.body;
 
@@ -291,6 +287,90 @@ function isLoggedIn(req, res, next) {
 app.get("/addbook", (req, res) => {
   res.render("addbook");
 });
+// ✅ Route to view a single book post
+app.get("/bookpost/:id", isLoggedIn, async (req, res) => {
+  try {
+      const postId = req.params.id;
+      const post = await postModel.findById(postId).lean();
+
+      if (!post) {
+          return res.status(404).send("Post not found");
+      }
+
+      res.render("bookpost_view", { post: post, user: req.user });  // Create bookpost_view.ejs
+  } catch (error) {
+      console.error("Error viewing book post:", error);
+      res.status(500).send("Server Error");
+  }
+});
+
+// ✅ Route to display the edit form
+app.get("/bookpost/edit/:id", isLoggedIn, async (req, res) => {
+  try {
+      const postId = req.params.id;
+      const post = await postModel.findById(postId).lean();
+
+      if (!post) {
+          return res.status(404).send("Post not found");
+      }
+
+      // Verify that the logged-in user is the owner of the post
+      if (post.seller.toString() !== req.user.userId) {
+          return res.status(403).send("Unauthorized");
+      }
+
+      res.render("bookpost_edit", { post: post, user: req.user });  // Create bookpost_edit.ejs
+  } catch (error) {
+      console.error("Error displaying edit form:", error);
+      res.status(500).send("Server Error");
+  }
+});
+
+// ✅ Route to handle the edit form submission
+app.post("/bookpost/edit/:id", isLoggedIn, upload.none(), async (req, res) => {
+  try {
+      const postId = req.params.id;
+
+      // Verify that the logged-in user is the owner of the post
+      const post = await postModel.findById(postId);
+      if (post.seller.toString() !== req.user.userId) {
+          return res.status(403).send("Unauthorized");
+      }
+
+      // Update the post
+      await postModel.findByIdAndUpdate(postId, req.body);
+
+      res.redirect("/account"); // Redirect to the account page
+  } catch (error) {
+      console.error("Error updating book post:", error);
+      res.status(500).send("Server Error");
+  }
+});
+
+// ✅ Route to delete a book post
+app.post("/bookpost/delete/:id", isLoggedIn, async (req, res) => {
+  try {
+      const postId = req.params.id;
+
+      // Verify that the logged-in user is the owner of the post
+      const post = await postModel.findById(postId);
+      if (post.seller.toString() !== req.user.userId) {
+          return res.status(403).send("Unauthorized");
+      }
+
+      // Delete the post
+      await postModel.findByIdAndDelete(postId);
+
+      // Remove the post ID from the user's `posts` array
+      await userModel.findByIdAndUpdate(req.user.userId, { $pull: { posts: postId } });
+
+      res.redirect("/account");  // Redirect to the account page
+  } catch (error) {
+      console.error("Error deleting book post:", error);
+      res.status(500).send("Server Error");
+  }
+});
+
 app.get("/booksbrowse", (req, res) => {
   res.render("bookstore");
 });
