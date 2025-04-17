@@ -371,8 +371,27 @@ app.post("/bookpost/delete/:id", isLoggedIn, async (req, res) => {
   }
 });
 
-app.get("/booksbrowse", (req, res) => {
-  res.render("bookstore");
+app.get('/booksbrowse', async (req, res) => {
+  try {
+      const books = await postModel.find().populate('seller'); // Optional: populate seller info
+      res.render('bookstore', { books });
+  } catch (err) {
+      console.error("Error loading bookstore:", err);
+      res.status(500).send("Internal Server Error");
+  }
+});
+
+app.get('/bookpost/view/:id', async (req, res) => {
+  try {
+      const book = await postModel.findById(req.params.id).populate('seller');
+      if (!book) {
+          return res.status(404).send('Book not found');
+      }
+      res.render('bookview', { book });
+  } catch (err) {
+      console.error(err);
+      res.status(500).send('Server Error');
+  }
 });
 // Route to view the car
 app.get("/cart", isLoggedIn, async (req, res) => {
